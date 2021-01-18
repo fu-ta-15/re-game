@@ -1,0 +1,34 @@
+﻿  action.cpp
+  backbg.cpp
+  bg.cpp
+  brock.cpp
+  enemy.cpp
+  fade.cpp
+  game.cpp
+  gauge.cpp
+  input.cpp
+  main.cpp
+  moneyblock.cpp
+  padinput.cpp
+  pause.cpp
+  player.cpp
+  point.cpp
+  prebg.cpp
+  ranking.cpp
+  rankingbg.cpp
+  result.cpp
+  score.cpp
+  コンパイル中...
+  sound.cpp
+  stage.cpp
+  stock.cpp
+  time.cpp
+  title.cpp
+  tutorial.cpp
+  ui.cpp
+  xpad.cpp
+  コード生成しています。
+  All 201 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  2dgame02.vcxproj -> C:\Users\student\Documents\Visual Studio 2015\Projects\2dgame02\2dgame02.exe
+  2dgame02.vcxproj -> C:\Users\student\Documents\Visual Studio 2015\Projects\2dgame02\2dgame02.pdb (Full PDB)
