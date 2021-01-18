@@ -148,16 +148,16 @@ void UpdateAction(void)
 	pPlayer = GetPlayer();
 	pPoint = GetPointer();
 
-	if (GetKeypadTrigger(2) == true)
+	if (GetKeypadTrigger(2) == true || GetKeyboardTrigger(DIK_SPACE) == true)
 	{
 		ActionPlayer();
 	}
-	if (GetKeypadTrigger(5) == true)
+	if (GetKeypadTrigger(5) == true || GetKeyboardTrigger(DIK_K) == true)
 	{
 		g_Action.Amode = ACTION_MODE_DIG;
 		PlaySound(SOUND_LABEL_SE_CAENGE);
 	}
-	if (GetKeypadTrigger(4) == true)
+	if (GetKeypadTrigger(4) == true || GetKeyboardTrigger(DIK_H) == true)
 	{
 		g_Action.Amode = ACTION_MODE_ATTACK;
 		PlaySound(SOUND_LABEL_SE_CAENGE);
@@ -314,7 +314,7 @@ void ActionCondributor(void)
 		g_Action.pos.x = 0 + ACTION_WIDTH_LEFT;
 		g_Action.MOVE.x = g_ActionAddMove;
 	}
-	if (GetKeypadTrigger(1) == true)
+	if (GetKeypadTrigger(1) == true || GetKeyboardTrigger(DIK_U) == true)
 	{
 		if (g_Action.pos.x < pGauge->g_GaugeGole && g_Action.pos.x > pGauge->g_GaugeStart)
 		{
