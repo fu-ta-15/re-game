@@ -1,0 +1,39 @@
+﻿  billboard.cpp
+  bullet.cpp
+  bulletptcl.cpp
+  camera.cpp
+  collision.cpp
+  Dinput.cpp
+  effect.cpp
+  fade.cpp
+  game.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx9.cpp
+  imgui_impl_win32.cpp
+  imgui_widgets.cpp
+  keyinput.cpp
+  light.cpp
+  main.cpp
+  meshfield.cpp
+  meshwall.cpp
+  コンパイル中...
+  Minput.cpp
+  mob.cpp
+  model.cpp
+  particle.cpp
+  pause.cpp
+  player.cpp
+  result.cpp
+  shadow.cpp
+  sound.cpp
+  title.cpp
+  tutorial.cpp
+  ui.cpp
+  Xinput.cpp
+  コード生成しています。
+  All 297 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  3D_Game.vcxproj -> C:\Users\student\documents\visual studio 2015\Projects\3D_Game\Release\3D_Game.exe
+  3D_Game.vcxproj -> C:\Users\student\documents\visual studio 2015\Projects\3D_Game\Release\3D_Game.pdb (Full PDB)
