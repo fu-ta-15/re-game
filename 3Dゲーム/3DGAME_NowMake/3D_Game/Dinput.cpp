@@ -10,8 +10,8 @@
 // マクロ定義
 //-------------------------------------------------------------------
 #define DEADZONE        2500            // 各軸の25%を無効ゾーンとする
-#define RANGE_MAX       314           // 有効範囲の最大値
-#define RANGE_MIN       -314          // 有効範囲の最小値
+#define RANGE_MAX       3000           // 有効範囲の最大値
+#define RANGE_MIN       -3000          // 有効範囲の最小値
 
 //-------------------------------------------------------------------
 // 構造体の定義
@@ -247,19 +247,19 @@ void JoypadPressInfo(DIJOYSTATE2 State)
 {
 	bool bPress[JPPRESS_MAX] = { false,false,false,false };
 
-	if (State.lX >= 314)
+	if (State.lX >= 3000)
 	{// 右
 		bPress[JPPRESS_RIGTH] = true;
 	}
-	else if (State.lX <= -314)
+	else if (State.lX <= -3000)
 	{// 左
 		bPress[JPPRESS_LEFT] = true;
 	}
-	else if (State.lY >= 314)
+	else if (State.lY >= 3000)
 	{
 		bPress[JPPRESS_DOWN] = true;
 	}
-	else if (State.lY <= -314)
+	else if (State.lY <= -3000)
 	{
 		bPress[JPPRESS_UP] = true;
 	}
@@ -275,19 +275,19 @@ void JoypadTriggerInfo(DIJOYSTATE2 State)
 {
 	bool bTrigger[JPTRIGGER_MAX] = { false,false,false,false };
 
-	if (State.lX >= 314)
+	if (State.lX >= 3000)
 	{// 右
 		bTrigger[JPTRIGGER_RIGTH] = true;
 	}
-	else if (State.lX <= -314)
+	else if (State.lX <= -3000)
 	{// 左
 		bTrigger[JPTRIGGER_LEFT] = true;
 	}
-	else if (State.lY >= 314)
+	else if (State.lY >= 3000)
 	{
 		bTrigger[JPTRIGGER_UP] = true;
 	}
-	else if (State.lY <= -314)
+	else if (State.lY <= -3000)
 	{
 		bTrigger[JPTRIGGER_DOWN] = true;
 	}

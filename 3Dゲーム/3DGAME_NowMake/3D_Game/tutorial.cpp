@@ -10,7 +10,6 @@
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #include "tutorial.h"
 #include "fade.h"
-#include "player.h"
 #include "sound.h"
 #include "keyinput.h"
 #include "Dinput.h"
@@ -43,7 +42,7 @@ HRESULT InitTutorial()
 	VERTEX_2D *pVtx;
 
 	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\tutlial.PNG", &g_pTextureTutorial);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\pad.png", &g_pTextureTutorial);
 	//D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\playerlog.png", &g_pTextureTutoriallogo);
 
 	//頂点バッファの生成
@@ -56,8 +55,8 @@ HRESULT InitTutorial()
 	g_pVtxBuffTutorial->Lock(0, 0, (void**)&pVtx, 0);
 
 	//頂点座標の設定(X座標・Y座標・Z座標(2Dは0固定)右回りで描画）
-	pVtx[0].pos = D3DXVECTOR3(0, SCREEN_HEIGHT, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(0, 0, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(200, SCREEN_HEIGHT, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(200, 0, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, 0, 0.0f);
 

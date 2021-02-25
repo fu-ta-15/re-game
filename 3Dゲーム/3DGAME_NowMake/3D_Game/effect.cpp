@@ -267,22 +267,13 @@ void DrawEffect(void)
 			// ポリゴンの描画
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntBullet * PVTEX_MAX, 2);
 
-				for (int nCntMob = 0; nCntMob < MOB_MAX; nCntMob++, pMoblayer++)
-				{
-					if (pMoblayer->bUse == true)
-					{
-						if (pMoblayer->pos.z > pEffect->pos.z)
-						{
-							pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-							pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-						}
-					}
-				}
 		}
 	}
 	//ライトをオフにする														
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);

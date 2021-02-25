@@ -9,7 +9,6 @@
 // インクルードファイル
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #include "model.h"
-#include "bullet.h"
 #include "meshwall.h"
 #include "meshfield.h"
 #include "collision.h"
@@ -45,7 +44,6 @@ void UpdatePos(void)
 {
 	// 構造体の情報取得
 	Player *pPlayer = GetPlayer();
-	BULLET *pBullet = GetBullet();	
 
 	// プレイヤーの当たり判定領域
 	g_cPlayer.CollPlayerMax = D3DXVECTOR3(pPlayer->pos.x + pPlayer->aModel[0].g_VtxMaxModel.x, pPlayer->pos.y + pPlayer->aModel[0].g_VtxMaxModel.y, pPlayer->pos.z + pPlayer->aModel[0].g_VtxMaxModel.z);
@@ -63,7 +61,6 @@ void PlayerCollision(void)
 	// 各構造体のポインタ
 	Player *pPlayer = GetPlayer();			 // プレイヤー
 	MeshWall *pMeshWall = GetMeshWall();	 // 壁
-	Meshfield *pMeshfield = GetMeshfield();	 // 床
 	Moblayer *pMob = GetMoblayer();			 // モブ（岩）
 
 	// プレイヤーの中心座標
@@ -82,68 +79,65 @@ void PlayerCollision(void)
 	{
 		if (pMob->bUse == true)
 		{// 岩が存在している時
-			// 岩5個分の中心座標
-			D3DXVECTOR3 rMob = D3DXVECTOR3(pMob->pos.x, pMob->pos.y + pMob->g_VtxMaxMob.y, pMob->pos.z);
 
-			// 岩五個分の半径（モデルの最大値）
-			g_cCircle.MobRadWidth = pMob->g_VtxMaxMob.x;
-			g_cCircle.MobRadHight = pMob->g_VtxMaxMob.y;
+				// 岩5個分の中心座標
+				D3DXVECTOR3 rMob = D3DXVECTOR3(pMob->pos.x, pMob->pos.y + pMob->g_VtxMaxMob.y, pMob->pos.z);
 
-			// 二点の距離を算出
-			g_cCircle.wAa = g_cPlayer.rPlayer.x - rMob.x;
-			g_cCircle.wBb = g_cPlayer.rPlayer.z - rMob.z;
-			g_cCircle.wCc = (float)sqrt(g_cCircle.wAa * g_cCircle.wAa + g_cCircle.wBb * g_cCircle.wBb);
+				// 岩五個分の半径（モデルの最大値）
+				g_cCircle.MobRadWidth = pMob->g_VtxMaxMob.x;
+				g_cCircle.MobRadHight = pMob->g_VtxMaxMob.y;
 
-			g_cCircle.hAa = g_cPlayer.rPlayer.x - rMob.x;
-			g_cCircle.hBb = g_cPlayer.rPlayer.y - rMob.y;
-			g_cCircle.hCc = (float)sqrt(g_cCircle.hAa * g_cCircle.hAa + g_cCircle.hBb * g_cCircle.hBb);
+				// 二点の距離を算出
+				g_cCircle.wAa = g_cPlayer.rPlayer.x - rMob.x;
+				g_cCircle.wBb = g_cPlayer.rPlayer.z - rMob.z;
+				g_cCircle.wCc = (float)sqrt(g_cCircle.wAa * g_cCircle.wAa + g_cCircle.wBb * g_cCircle.wBb);
 
-
-			// 二つの半径の和
-			g_cCircle.wSumRad = g_cPlayer.PlayerRadWidth + g_cCircle.MobRadWidth;
-			g_cCircle.hSumRad = g_cPlayer.PlayerRadHight + g_cCircle.MobRadHight;
+				g_cCircle.hAa = g_cPlayer.rPlayer.x - rMob.x;
+				g_cCircle.hBb = g_cPlayer.rPlayer.y - rMob.y;
+				g_cCircle.hCc = (float)sqrt(g_cCircle.hAa * g_cCircle.hAa + g_cCircle.hBb * g_cCircle.hBb);
 
 
-			D3DXVECTOR3 MobCollMax = D3DXVECTOR3(pMob->pos.x + pMob->g_VtxMaxMob.x, pMob->pos.y + pMob->g_VtxMaxMob.y, pMob->pos.z + pMob->g_VtxMaxMob.z);
-			D3DXVECTOR3 MobCollMin = D3DXVECTOR3(pMob->pos.x + pMob->g_VtxMinMob.x, pMob->pos.y + pMob->g_VtxMinMob.y, pMob->pos.z + pMob->g_VtxMinMob.z);
+				// 二つの半径の和
+				g_cCircle.wSumRad = g_cPlayer.PlayerRadWidth + g_cCircle.MobRadWidth;
+				g_cCircle.hSumRad = g_cPlayer.PlayerRadHight + g_cCircle.MobRadHight;
 
-			if (g_cPlayer.PlayerHight < rMob.y - pMob->g_VtxMaxMob.y || g_cPlayer.PlayerLow > rMob.y)
-			{
 
-			}
-			else
-			{
-				if (g_cCircle.wCc <= g_cCircle.wSumRad)
-				{// 当たり判定の距離になった時
-					printf("当たりました。");
-					pPlayer->move.x -= pPlayer->move.x;
-					pPlayer->move.z -= pPlayer->move.z;
-					g_cMob.nNumMobMax -= 1;
-					pMob->bUse = false;
+				D3DXVECTOR3 MobCollMax = D3DXVECTOR3(pMob->pos.x + pMob->g_VtxMaxMob.x, pMob->pos.y + pMob->g_VtxMaxMob.y, pMob->pos.z + pMob->g_VtxMaxMob.z);
+				D3DXVECTOR3 MobCollMin = D3DXVECTOR3(pMob->pos.x + pMob->g_VtxMinMob.x, pMob->pos.y + pMob->g_VtxMinMob.y, pMob->pos.z + pMob->g_VtxMinMob.z);
+
+				// 岩の反射
+				if (MobCollMax.x > LENGTH_POLYGON_X)
+				{
+					pMob->move.x = pMob->move.x * (-1);
 				}
-			}
+				if (MobCollMin.x < -LENGTH_POLYGON_X)
+				{
+					pMob->move.x = pMob->move.x * (-1);
+				}
+				if (MobCollMax.z > LENGTH_POLYGON_Z)
+				{
+					pMob->move.z = pMob->move.z * (-1);
+				}
+				if (MobCollMin.z < -LENGTH_POLYGON_Z)
+				{
+					pMob->move.z = pMob->move.z * (-1);
+				}
 
-			// 岩の反射
-			if (MobCollMax.x > LENGTH_POLYGON_X)
-			{
-				pMob->move.x = pMob->move.x * (-1);
+				if (g_cPlayer.PlayerHight < rMob.y - pMob->g_VtxMaxMob.y || g_cPlayer.PlayerLow > rMob.y)
+				{
+				}
+				else
+				{
+					if (g_cCircle.wCc <= g_cCircle.wSumRad)
+					{// 当たり判定の距離になった時
+						printf("当たりました。");
+						g_cMob.nNumMobMax -= 1;
+						pMob->bUse = false;
+					}
+				}
+				// 内積の当たり判定
+				InnerProduct(nColl);
 			}
-			if (MobCollMin.x < -LENGTH_POLYGON_X)
-			{
-				pMob->move.x = pMob->move.x * (-1);
-			}
-			if (MobCollMax.z > LENGTH_POLYGON_Z)
-			{
-				pMob->move.z = pMob->move.z * (-1);
-			}
-			if (MobCollMin.z < -LENGTH_POLYGON_Z)
-			{
-				pMob->move.z = pMob->move.z * (-1);
-			}
-
-			// 内積の当たり判定
-			InnerProduct(nColl);
-		}
 	}
 
 	if (g_cMob.nNumMobMax == 0)

@@ -13,61 +13,39 @@
 #include "fade.h"
 #include "sound.h"
 #include "Dinput.h"
+#include "meshfield.h"
+#include "meshwall.h"
+#include "camera.h"
+#include "light.h"
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// マクロ変数
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+#define RESULT_MAX_MODEL			(1)
 
 
-//グローバル変数
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// グローバル変数
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;	//頂点バッファの情報
 LPDIRECT3DTEXTURE9 g_pTextureResult = NULL;		//テクスチャの情報
+ResultModel g_aResult[RESULT_MAX_MODEL];
 
-
-												//ポリゴンの初期化処理
+//=====================================================================================================================================================================//
+// リザルトの初期化処理
+//=====================================================================================================================================================================//
 HRESULT InitResult(void)
 {
-	LPDIRECT3DDEVICE9 pDevice;
-
-	VERTEX_2D *pVtx;
-
-	//デバイスの取得
-	pDevice = GetDevice();
-
-	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\result.png", &g_pTextureResult);
-
-	//頂点バッファの生成
-	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &g_pVtxBuffResult, NULL)))
-	{
-		return E_FAIL;
-	}
-
-	//頂点バッファをロック・頂点情報へのポインタを取得
-	g_pVtxBuffResult->Lock(0, 0, (void**)&pVtx, 0);
-
-	//頂点座標の設定(X座標・Y座標・Z座標(2Dは0固定)右回りで描画）
-	pVtx[0].pos = D3DXVECTOR3(0, SCREEN_HEIGHT, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(0, 0, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, 0, 0.0f);
-
-	//rhwの設定		=	1.0f固定
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
-
-	//頂点カラーの設定・赤・緑・青
-	pVtx[0].col = D3DCOLOR_RGBA(225, 225, 225, 225);
-	pVtx[1].col = D3DCOLOR_RGBA(225, 225, 225, 225);
-	pVtx[2].col = D3DCOLOR_RGBA(225, 225, 225, 225);
-	pVtx[3].col = D3DCOLOR_RGBA(225, 225, 225, 225);
-
-	//テクスチャの頂点座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0, 1);
-	pVtx[1].tex = D3DXVECTOR2(0, 0);
-	pVtx[2].tex = D3DXVECTOR2(1, 1);
-	pVtx[3].tex = D3DXVECTOR2(1, 0);
-
-	//頂点バッファをアンロック
-	g_pVtxBuffResult->Unlock();
+	InitCamera();
+	InitResultModel();
+	Initlight();
+	InitMeshfield();
+	InitMeshWall();
+	// 壁の配置
+	SetMeshWall(D3DXVECTOR3(0.0f, 0.0f, WALL_POS), D3DXVECTOR3(0.0f, 0.0f, 0.0f), WALL_WIGTH, WALL_HEIGHHT);
+	SetMeshWall(D3DXVECTOR3(0.0f, 0.0f, -WALL_POS), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), WALL_WIGTH, WALL_HEIGHHT);
+	SetMeshWall(D3DXVECTOR3(WALL_POS, 0.0f, 0.0f), D3DXVECTOR3(0.0f, PI_HAFE, 0.0f), WALL_WIGTH, WALL_HEIGHHT);
+	SetMeshWall(D3DXVECTOR3(-WALL_POS, 0.0f, 0.0f), D3DXVECTOR3(0.0f, -PI_HAFE, 0.0f), WALL_WIGTH, WALL_HEIGHHT);
 
 	//PlaySound(SOUND_LABEL_BGM003);
 
@@ -75,27 +53,24 @@ HRESULT InitResult(void)
 
 }
 
-//ポリゴンの終了処理
+//=====================================================================================================================================================================//
+// 終了処理
+//=====================================================================================================================================================================//
 void UninitResult(void)
 {
-	//テクスチャの開放
-	if (g_pTextureResult != NULL)
-	{
-		g_pTextureResult->Release();
-		g_pTextureResult = NULL;
-	}
+	UninitCamera();
+	UninitResultModel();
+	Uninitlight();
+	UninitMeshfield();
+	UninitMeshWall();
 
-	//頂点バッファの開放
-	if (g_pVtxBuffResult != NULL)
-	{
-		g_pVtxBuffResult->Release();
-		g_pVtxBuffResult = NULL;
-	}
 	//StopSound(SOUND_LABEL_BGM003);
 
 }
 
-//ポリゴンの更新処理
+//=====================================================================================================================================================================//
+// 更新処理
+//=====================================================================================================================================================================//
 void UpdateResult(void)
 {
 	FADE pFade;
@@ -108,26 +83,206 @@ void UpdateResult(void)
 			SetFade(FADE_OUT, MODE_TITLE);
 		}
 	}
+	UpdateResultModel();
+	UpdateCamera();
+	Updatelight();
+	UpdateMeshfield();
+	UpdateMeshWall();
 
 }
 
-//ポリゴンの描画処理
+//=====================================================================================================================================================================//
+// 描画処理
+//=====================================================================================================================================================================//
 void DrawResult(void)
 {
-	LPDIRECT3DDEVICE9 pDevice;
+	SetCamera();
+	DrawMeshfield();
+	DrawMeshWall();
+	DrawResultModel();
+}
 
-	//デバイスの取得
-	pDevice = GetDevice();
 
-	//頂点バッファをデータストリームに設定
-	pDevice->SetStreamSource(0, g_pVtxBuffResult, 0, sizeof(VERTEX_2D));
+//=====================================================================================================================================================================//
+// 初期化処理
+//=====================================================================================================================================================================//
+void InitResultModel(void)
+{
+	// デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	//頂点フォーマットの設定
-	pDevice->SetFVF(FVF_VERTEX_2D);
+	/* モデル */
+	for (int nNumCnt = 0; nNumCnt < RESULT_MAX_MODEL; nNumCnt++)
+	{
+		/* No.0 体 */
+		g_aResult[nNumCnt].pos = D3DXVECTOR3(0.0f + (nNumCnt * 50), 100.0f, 0.0f);
+		g_aResult[nNumCnt].oldpos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aResult[nNumCnt].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aResult[nNumCnt].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aResult[nNumCnt].pMesh = NULL;
+		g_aResult[nNumCnt].pBuffMat = NULL;
+		g_aResult[nNumCnt].pTexture = NULL;
+		g_aResult[nNumCnt].rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//テクスチャの設定
-	pDevice->SetTexture(0, g_pTextureResult);
+		// ファイルの読み込み
+		/* No.0 岩 */
+		D3DXLoadMeshFromX("data\\MODEL\\Title.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &g_aResult[nNumCnt].pBuffMat, NULL, &g_aResult[nNumCnt].NumMat, &g_aResult[nNumCnt].pMesh);
 
-	//ポリゴンの描画
-	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);		// 0//描画を開始する頂点インデックス
+		g_aResult[nNumCnt].pMat = (D3DXMATERIAL*)g_aResult[nNumCnt].pBuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)g_aResult[nNumCnt].NumMat; nCntMat++)
+		{
+			if (g_aResult[nNumCnt].pMat[nCntMat].pTextureFilename != NULL)
+			{
+				// テクスチャの読み込み
+				D3DXCreateTextureFromFile(pDevice, g_aResult[nNumCnt].pMat[nCntMat].pTextureFilename, &g_aResult[nNumCnt].pTexture);
+			}
+		}
+
+		//g_Mob.nNumShadow = SetShadow(g_Mob.pos, 10.0f, 10.0f);
+
+		/* モデルの頂点情報抜き出し */
+		int nNumVtx;												// 頂点数
+		DWORD sizeFVF;												// 頂点フォーマットのサイズ
+		BYTE *pVtxBuff;												// 頂点バッファへのポインタ
+		float MinMob_X = 0.0f, MinMob_Z = 0.0f, MinMob_Y = 0.0f;	// 最小値保管用
+		float MaxMob_X = 0.0f, MaxMob_Z = 0.0f, MaxMob_Y = 0.0f;	// 最大値保管用
+
+		// 頂点数を取得
+		nNumVtx = g_aResult[nNumCnt].pMesh->GetNumVertices();
+		// 頂点フォーマットのサイズを取得
+		sizeFVF = D3DXGetFVFVertexSize(g_aResult[nNumCnt].pMesh->GetFVF());
+		// 頂点バッファをロック
+		g_aResult[nNumCnt].pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+
+		for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
+		{
+			D3DXVECTOR3 Vtx = *(D3DXVECTOR3*)pVtxBuff;	// 頂点座標の代入
+														// 最大値・最小値の代入処理
+			if (Vtx.x < MinMob_X)
+			{/* 最小値 */
+				MinMob_X = Vtx.x;
+				g_aResult[nNumCnt].g_VtxMinTitle.x = MinMob_X;
+			}
+			if (Vtx.y < MinMob_Y)
+			{
+				MinMob_Y = Vtx.y;
+				g_aResult[nNumCnt].g_VtxMinTitle.y = MinMob_Y;
+			}
+			if (Vtx.z < MinMob_Z)
+			{
+				MinMob_Z = Vtx.z;
+				g_aResult[nNumCnt].g_VtxMinTitle.z = MinMob_Z;
+			}
+
+			if (Vtx.x > MaxMob_X)
+			{/* 最大値 */
+				MaxMob_X = Vtx.x;
+				g_aResult[nNumCnt].g_VtxMaxTitle.x = MaxMob_X;
+			}
+			if (Vtx.y > MaxMob_Y)
+			{
+				MaxMob_Y = Vtx.y;
+				g_aResult[nNumCnt].g_VtxMaxTitle.y = MaxMob_Y;
+			}
+			if (Vtx.z > MaxMob_Z)
+			{
+				MaxMob_Z = Vtx.z;
+				g_aResult[nNumCnt].g_VtxMaxTitle.z = MaxMob_Z;
+			}
+			pVtxBuff += sizeFVF;	// 頂点フォーマットのサイズ分ポインタを進める
+		}
+		// 頂点バッファのアンロック
+		g_aResult[nNumCnt].pMesh->UnlockVertexBuffer();
+	}
+}
+
+
+//=====================================================================================================================================================================//
+// 終了処理
+//=====================================================================================================================================================================//
+void UninitResultModel(void)
+{
+	for (int nNumCnt = 0; nNumCnt < RESULT_MAX_MODEL; nNumCnt++)
+	{
+		if (g_aResult[nNumCnt].pMesh != NULL)
+		{// メッシュの破棄
+			g_aResult[nNumCnt].pMesh->Release();
+			g_aResult[nNumCnt].pMesh = NULL;
+		}
+		if (g_aResult[nNumCnt].pBuffMat != NULL)
+		{// マテリアルの破棄
+			g_aResult[nNumCnt].pBuffMat->Release();
+			g_aResult[nNumCnt].pBuffMat = NULL;
+		}
+		if (g_aResult[nNumCnt].pTexture != NULL)
+		{
+			g_aResult[nNumCnt].pTexture->Release();
+			g_aResult[nNumCnt].pTexture = NULL;
+		}
+	}
+}
+
+
+//=====================================================================================================================================================================//
+// 更新処理
+//=====================================================================================================================================================================//
+void UpdateResultModel(void)
+{
+}
+
+
+//=====================================================================================================================================================================//
+// 描画処理
+//=====================================================================================================================================================================//
+void DrawResultModel(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();	// デバイスの取得
+	D3DXMATRIX mtxRot, mtxTrans;				// 計算用マトリックス
+	D3DMATERIAL9 matDef;						// 現在のマテリアル保存用
+	D3DXMATERIAL *pMat;							// マテリアルデータへのポインタ
+
+	for (int nNumCnt = 0; nNumCnt < RESULT_MAX_MODEL; nNumCnt++)
+	{
+
+		D3DXMatrixIdentity(&g_aResult[nNumCnt].mtxWorld);
+
+		// 向きの反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, g_aResult[nNumCnt].rot.y, g_aResult[nNumCnt].rot.x, g_aResult[nNumCnt].rot.z);
+		D3DXMatrixMultiply(&g_aResult[nNumCnt].mtxWorld, &g_aResult[nNumCnt].mtxWorld, &mtxRot);
+
+		// 位置を反映
+		D3DXMatrixTranslation(&mtxTrans, g_aResult[nNumCnt].pos.x, g_aResult[nNumCnt].pos.y, g_aResult[nNumCnt].pos.z);
+		D3DXMatrixMultiply(&g_aResult[nNumCnt].mtxWorld, &g_aResult[nNumCnt].mtxWorld, &mtxTrans);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &g_aResult[nNumCnt].mtxWorld);
+
+		// 現在のマテリアルを取得
+		pDevice->GetMaterial(&matDef);
+
+		// マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)g_aResult[nNumCnt].pBuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)g_aResult[nNumCnt].NumMat; nCntMat++)
+		{
+			// 各モデルパーツの描画
+			// マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+			// テクスチャの設定
+			pDevice->SetTexture(0, NULL);
+			// モデルの描画
+			g_aResult[nNumCnt].pMesh->DrawSubset(nCntMat);
+		}
+		// 保存していたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
+	}
+}
+
+
+//=====================================================================================================================================================================//
+// セット処理
+//=====================================================================================================================================================================//
+void SetResultModel(void)
+{
 }

@@ -105,16 +105,7 @@
     <ClCompile Include="Xinput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="billboard.cpp">
-      <Filter>ソース ファイル\game\elements</Filter>
-    </ClCompile>
     <ClCompile Include="shadow.cpp">
-      <Filter>ソース ファイル\game\elements</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル\game\elements</Filter>
     </ClCompile>
     <ClCompile Include="fade.cpp">
@@ -134,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\main\mode</Filter>
-    </ClCompile>
-    <ClCompile Include="particle.cpp">
-      <Filter>ソース ファイル\game\elements</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui\ソースファイル</Filter>
@@ -171,9 +159,6 @@
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル\main\attachment</Filter>
     </ClCompile>
-    <ClCompile Include="bulletptcl.cpp">
-      <Filter>ソース ファイル\game\elements</Filter>
-    </ClCompile>
     <ClCompile Include="effect.cpp">
       <Filter>ソース ファイル\game\elements</Filter>
     </ClCompile>
@@ -181,6 +166,12 @@
       <Filter>ソース ファイル\game\not Player</Filter>
     </ClCompile>
     <ClCompile Include="ui.cpp">
+      <Filter>ソース ファイル\game\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>ソース ファイル\game\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
       <Filter>ソース ファイル\game\elements</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,19 +194,10 @@
     <ClInclude Include="Xinput.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="billboard.h">
-      <Filter>ヘッダー ファイル\game\elements</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>ヘッダー ファイル\game\elements</Filter>
-    </ClInclude>
     <ClInclude Include="shadow.h">
       <Filter>ヘッダー ファイル\game\elements</Filter>
     </ClInclude>
     <ClInclude Include="model.h">
-      <Filter>ヘッダー ファイル\game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル\game\Player</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
@@ -235,9 +217,6 @@
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル\main\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="particle.h">
-      <Filter>ヘッダー ファイル\game\elements</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui\ヘッダーファイル</Filter>
@@ -278,9 +257,6 @@
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル\main\attachment</Filter>
     </ClInclude>
-    <ClInclude Include="bulletptcl.h">
-      <Filter>ヘッダー ファイル\game\elements</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>ヘッダー ファイル\game\elements</Filter>
     </ClInclude>
@@ -288,6 +264,12 @@
       <Filter>ヘッダー ファイル\game\not Player</Filter>
     </ClInclude>
     <ClInclude Include="ui.h">
+      <Filter>ヘッダー ファイル\game\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>ヘッダー ファイル\game\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
       <Filter>ヘッダー ファイル\game\elements</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,12 +12,13 @@
 #include "keyinput.h"
 #include "Dinput.h"
 #include "model.h"
+#include "fade.h"
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // マクロ
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #define CAMERA_POS_Y					(200.0f)
-#define CAMERA_POS_Z					(-500.0f)
+#define CAMERA_POS_Z					(500.0f)
 #define CAMERA_DISTANCE_V				(500.0f)
 #define CAMERA_DISTANCE_R				(30.0f)
 #define INIT_CAMERA_POSV				(D3DXVECTOR3(0.0f, CAMERA_POS_Y, CAMERA_POS_Z))
@@ -60,67 +61,72 @@ void UninitCamera(void)
 //=====================================================================================================================================================================//
 void UpdateCamera(void)
 {
-	Player *pPlayer = GetPlayer();
+	MODE pMode = GetMode();
 
-	MoveCamera();
-
-	/*視点の操作*/
-	// 右旋回・左旋回
-	if (GetKeyboardPresse(DIK_Q) == true || GetKeypadPresse(D_BUUTON_LB) == true)
+	if (pMode == MODE_GAME)
 	{
-		g_camera.rot.y -= 0.03f;
-		if (g_camera.rot.y < (-D3DX_PI))
+		Player *pPlayer = GetPlayer();
+
+		MoveCamera();
+
+		/*視点の操作*/
+		// 右旋回・左旋回
+		if (GetKeyboardPresse(DIK_Q) == true || GetKeypadPresse(D_BUUTON_RB) == true)
 		{
-			g_camera.rot.y += D3DX_PI * 2.0f;
+			g_camera.rot.y -= 0.03f;
+			if (g_camera.rot.y < (-D3DX_PI))
+			{
+				g_camera.rot.y += D3DX_PI * 2.0f;
+			}
 		}
-	}
-	if (GetKeyboardPresse(DIK_E) == true || GetKeypadPresse(D_BUUTON_RB) == true)
-	{
-		g_camera.rot.y += 0.03f;
-		if (g_camera.rot.y > D3DX_PI)
+		if (GetKeyboardPresse(DIK_E) == true || GetKeypadPresse(D_BUUTON_LB) == true)
 		{
-			g_camera.rot.y -= D3DX_PI*2.0f;
+			g_camera.rot.y += 0.03f;
+			if (g_camera.rot.y > D3DX_PI)
+			{
+				g_camera.rot.y -= D3DX_PI*2.0f;
+			}
 		}
-	}
-	// 上移動・下移動
-	if (GetKeyboardPresse(DIK_Y) == true)
-	{
-		g_camera.moveVY.y += 1.0f;
-	}
-	if (GetKeyboardPresse(DIK_N) == true)
-	{
-		g_camera.moveVY.y -= 1.0f;
-	}
-	/*注視点の操作*/
-	// 上移動・下移動
-	if (GetKeyboardPresse(DIK_T) == true)
-	{
-		g_camera.moveRY.y += 1.0f;
-	}
-	if (GetKeyboardPresse(DIK_B) == true)
-	{
-		g_camera.moveRY.y -= 1.0f;
-	}
+		// 上移動・下移動
+		if (GetKeyboardPresse(DIK_Y) == true)
+		{
+			g_camera.moveVY.y += 1.0f;
+		}
+		if (GetKeyboardPresse(DIK_N) == true)
+		{
+			g_camera.moveVY.y -= 1.0f;
+		}
+		/*注視点の操作*/
+		// 上移動・下移動
+		if (GetKeyboardPresse(DIK_T) == true)
+		{
+			g_camera.moveRY.y += 1.0f;
+		}
+		if (GetKeyboardPresse(DIK_B) == true)
+		{
+			g_camera.moveRY.y -= 1.0f;
+		}
 
-	// 視点の制御
-	g_camera.posVDest.x = pPlayer->pos.x - sinf(g_camera.rot.y + D3DX_PI) * CAMERA_DISTANCE_V;
-	g_camera.posVDest.z = pPlayer->pos.z + cosf(g_camera.rot.y - D3DX_PI) * CAMERA_DISTANCE_V;
-	g_camera.posVDest.y = pPlayer->pos.y + CAMERA_POS_Y + g_camera.moveVY.y;
+		// 視点の制御
+		g_camera.posVDest.x = pPlayer->pos.x + sinf(g_camera.rot.y + D3DX_PI) * CAMERA_DISTANCE_V;
+		g_camera.posVDest.z = pPlayer->pos.z - cosf(g_camera.rot.y - D3DX_PI) * CAMERA_DISTANCE_V;
+		g_camera.posVDest.y = pPlayer->pos.y + CAMERA_POS_Y + g_camera.moveVY.y;
 
-	//// 注視点の制御
-	g_camera.posRDest.x = pPlayer->pos.x;
-	g_camera.posRDest.z = pPlayer->pos.z;
-	g_camera.posRDest.y = pPlayer->pos.y;
+		//// 注視点の制御
+		g_camera.posRDest.x = pPlayer->pos.x;
+		g_camera.posRDest.z = pPlayer->pos.z;
+		g_camera.posRDest.y = pPlayer->pos.y;
 
-	// 視点の更新
-	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.04f;
-	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.04f;
-	g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.04f;
+		// 視点の更新
+		g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.04f;
+		g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.04f;
+		g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.04f;
 
-	// 注視点の更新
-	g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.08f;
-	g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.08f;
-	g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.08f;
+		// 注視点の更新
+		g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.08f;
+		g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.08f;
+		g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.08f;
+	}
 }
 
 //=====================================================================================================================================================================//
@@ -217,7 +223,7 @@ void SetCamera(void)
 		D3DXToRadian(45.0f),							// 画角
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,		// 比率
 		50.0f,											// 手前距離
-		3000.0f);										// 奥の距離
+		6000.0f);										// 奥の距離
 
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &g_camera.mtxProjection);

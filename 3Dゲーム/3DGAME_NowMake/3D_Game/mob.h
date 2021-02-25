@@ -11,7 +11,7 @@
 #include "main.h"
 
 
-#define MOB_MAX				(10)
+#define MOB_MAX				(3)
 
 
 //=====================================================================================================================================================================//
@@ -34,16 +34,16 @@ typedef struct
 	DWORD NumMat;					// マテリアルの数
 	D3DXVECTOR3 g_VtxMinMob;		// モデルの最小値（MIN）
 	D3DXVECTOR3	g_VtxMaxMob;		// モデルの最大値（MAX）
-									/* モデル情報 */
+
+	/* モデル情報 */
 	int nNumModel;					// モデルパーツ数
 	int nCuntDown;					// 出現までのカウントダウン
 	int nCuntUp;					// カウントアップ
 	int nlife;						// ライフ
 	int nMobNum;					// モブの数
-	bool bColl;
 	bool bUse;						// 使用しているか
 
-									/* 影 */
+	/* 影 */
 	int nNumShadow;					// 影
 }Moblayer;	// プレイヤー(見えないモデル)
 

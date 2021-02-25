@@ -37,7 +37,7 @@ LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;				// Direct3Dデバイスへのポインタ
 D3DPRESENT_PARAMETERS g_d3dpp;						// ImGuiに必要
 LPD3DXFONT g_pFont = NULL;							// フォントへのポインタ
 int g_nCountFPS;									// FPSカウンタ
-MODE g_mode = MODE_GAME;
+MODE g_mode = MODE_TITLE;							// 最初のモード
 
 //=====================================================================================================================================================================//
 // プロトタイプ宣言

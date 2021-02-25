@@ -8,10 +8,10 @@
 #define _MESHFIELD_H_
 
 
-#define LENGTH_POLYGON_X					(500.0f)								// 中心から各頂点の距離を求める数値
+#define LENGTH_POLYGON_X					(1000.0f)								// 中心から各頂点の距離を求める数値
 #define LENGTH_POLYGON_Y					(50.0f)									// 中心から各頂点の距離を求める数値
-#define LENGTH_POLYGON_Z					(500.0f)								// 中心から各頂点の距離を求める数値
-#define FIELD_POS							(500.0f)
+#define LENGTH_POLYGON_Z					(1000.0f)								// 中心から各頂点の距離を求める数値
+#define FIELD_POS							(1000.0f)
 
 
 #include "main.h"

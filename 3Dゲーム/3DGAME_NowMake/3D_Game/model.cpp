@@ -12,8 +12,6 @@
 #include "keyinput.h"
 #include "camera.h"
 #include "shadow.h"
-#include "bullet.h"
-#include "bulletptcl.h"
 #include "memory.h"
 #include "effect.h"
 #include "Dinput.h"
@@ -355,54 +353,54 @@ void MoveModel(void)
 	{
 		if (GetKeyboardPresse(DIK_RIGHT) == true)
 		{
-			g_Player.move.x += sinf(pCamera->rot.y + D3DX_PI * 3 / 4) * MODEL_SPEED;
-			g_Player.move.z -= cosf(pCamera->rot.y + D3DX_PI * 3 / 4) * MODEL_SPEED;
-			g_Player.rotDest.y = -D3DX_PI * 3 / 4 - pCamera->rot.y;
+			g_Player.move.x -= sinf(pCamera->rot.y + D3DX_PI * 3 / 4) * MODEL_SPEED;
+			g_Player.move.z += cosf(pCamera->rot.y + D3DX_PI * 3 / 4) * MODEL_SPEED;
+			g_Player.rotDest.y = D3DX_PI * 3 / 4 - pCamera->rot.y;
 		}
 		else if (GetKeyboardPresse(DIK_LEFT) == true)
 		{
-			g_Player.move.x += sinf(pCamera->rot.y - D3DX_PI * 3 / 4) * MODEL_SPEED;
-			g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI * 3 / 4) * MODEL_SPEED;
-			g_Player.rotDest.y = D3DX_PI * 3 / 4 - pCamera->rot.y;
+			g_Player.move.x -= sinf(pCamera->rot.y - D3DX_PI * 3 / 4) * MODEL_SPEED;
+			g_Player.move.z += cosf(pCamera->rot.y - D3DX_PI * 3 / 4) * MODEL_SPEED;
+			g_Player.rotDest.y = -D3DX_PI * 3 / 4 - pCamera->rot.y;
 		}
 		else
 		{
-			g_Player.move.x += sinf(pCamera->rot.y + D3DX_PI) * MODEL_SPEED;
-			g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI) * MODEL_SPEED;
-			g_Player.rotDest.y = D3DX_PI - pCamera->rot.y;
+			g_Player.move.x -= sinf(pCamera->rot.y - D3DX_PI) * MODEL_SPEED;
+			g_Player.move.z += cosf(pCamera->rot.y + D3DX_PI) * MODEL_SPEED;
+			g_Player.rotDest.y = 0.0f - pCamera->rot.y;
 		}
 	}
 	else if (GetKeyboardPresse(DIK_DOWN) == true)
 	{
 		if (GetKeyboardPresse(DIK_RIGHT) == true)
 		{
-			g_Player.move.x += sinf(pCamera->rot.y + D3DX_PI * 1 / 4) * MODEL_SPEED;
-			g_Player.move.z -= cosf(pCamera->rot.y + D3DX_PI * 1 / 4) * MODEL_SPEED;
-			g_Player.rotDest.y = -D3DX_PI * 1 / 4 - pCamera->rot.y;
+			g_Player.move.x -= sinf(pCamera->rot.y + D3DX_PI * 1 / 4) * MODEL_SPEED;
+			g_Player.move.z += cosf(pCamera->rot.y + D3DX_PI * 1 / 4) * MODEL_SPEED;
+			g_Player.rotDest.y = D3DX_PI * 1 / 4 - pCamera->rot.y;
 		}
 		else if (GetKeyboardPresse(DIK_LEFT) == true)
 		{
-			g_Player.move.x += sinf(pCamera->rot.y - D3DX_PI * 1 / 4) * MODEL_SPEED;
-			g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI * 1 / 4) * MODEL_SPEED;
-			g_Player.rotDest.y = D3DX_PI * 1 / 4 - pCamera->rot.y;
+			g_Player.move.x -= sinf(pCamera->rot.y - D3DX_PI * 1 / 4) * MODEL_SPEED;
+			g_Player.move.z += cosf(pCamera->rot.y - D3DX_PI * 1 / 4) * MODEL_SPEED;
+			g_Player.rotDest.y = -D3DX_PI * 1 / 4 - pCamera->rot.y;
 		}
 		else
 		{
-			g_Player.move.x -= sinf(pCamera->rot.y + D3DX_PI) * MODEL_SPEED;
-			g_Player.move.z += cosf(pCamera->rot.y - D3DX_PI) * MODEL_SPEED;
-			g_Player.rotDest.y = 0.0f - pCamera->rot.y;
+			g_Player.move.x += sinf(pCamera->rot.y - D3DX_PI) * MODEL_SPEED;
+			g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI) * MODEL_SPEED;
+			g_Player.rotDest.y = D3DX_PI - pCamera->rot.y;
 		}
 	}
 	else if (GetKeyboardPresse(DIK_RIGHT) == true)
 	{// 右移動・左移動
-		g_Player.move.x += sinf(pCamera->rot.y + D3DX_PI * 2 / 4) * MODEL_SPEED;
-		g_Player.move.z -= cosf(pCamera->rot.y + D3DX_PI * 2 / 4) * MODEL_SPEED;
-		g_Player.rotDest.y = -D3DX_PI * 2 / 4 - pCamera->rot.y ;
+		g_Player.move.x += sinf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
+		g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
+		g_Player.rotDest.y = D3DX_PI * 2 / 4 + pCamera->rot.y ;
 	}
 	else if (GetKeyboardPresse(DIK_LEFT) == true)
 	{
-		g_Player.move.x += sinf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
-		g_Player.move.z -= cosf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
+		g_Player.move.x -= sinf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
+		g_Player.move.z += cosf(pCamera->rot.y - D3DX_PI * 2 / 4) * MODEL_SPEED;
 		g_Player.rotDest.y = D3DX_PI * 2 / 4 - pCamera->rot.y;
 	}
 
@@ -415,37 +413,20 @@ void MoveModel(void)
 	{
 		g_Player.move.y -= 0.06f;
 	}
-	// 右旋回・左旋回
-	if (GetKeyboardPresse(DIK_Q) == true || GetKeypadPresse(D_BUUTON_RB) == true)
-	{
-		g_Player.rotDest.y += 0.03f;
-	}
-	if (GetKeyboardPresse(DIK_E) == true || GetKeypadPresse(D_BUUTON_LB) == true)
-	{
-		g_Player.rotDest.y -= 0.03f;
-	}
 
 	DIJOYSTATE2 *pController = pGetPadCont();					// コントローラー情報のポインタ
 
 	if (pController->lX != 0 || pController->lY != 0)
 	{// スティックが傾いたら
 		// スティックの傾けている位置
-		float fAngle = atan2f((float)-pController->lX, (float)pController->lY);
+		float fAngle = atan2f((float)pController->lX, -(float)pController->lY);
+
+		g_Player.move.x += sinf((D3DX_PI + fAngle) - pCamera->rot.y) * 0.5f;			// X軸移動量の決定
+		g_Player.move.z += cosf((D3DX_PI + fAngle) - pCamera->rot.y) * 0.5f;			// Z軸移動量の決定
 
 		g_Player.rotDest.y = fAngle - pCamera->rot.y;
-		g_Player.move.x -= 0.5f * sinf(g_Player.rotDest.y);			// X軸移動量の決定
-		g_Player.move.z -= 0.5f * cosf(g_Player.rotDest.y);			// Z軸移動量の決定
-
-		// 目的回転制限
-		if ((g_Player.rotDest.y - g_Player.rot.y) > D3DX_PI)
-		{
-			g_Player.rotDest.y -= D3DX_PI * 2.0f;
-		}
-		if ((g_Player.rotDest.y - g_Player.rot.y) < (-D3DX_PI))
-		{
-			g_Player.rotDest.y += D3DX_PI * 2.0f;
-		}
 	}
+
 }
 
 //==================================================================================================================================================================//
@@ -485,9 +466,9 @@ void MotionModel(void)
 			g_Player.aModel[nCntModel].pos.y += g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Pos_Y + (g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Pos_Y - g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Pos_Y) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
 			g_Player.aModel[nCntModel].pos.z += g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Pos_Z + (g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Pos_Z - g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Pos_Z) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
 
-			g_Player.aModel[nCntModel].rot.x = g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_X + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_X - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_X) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
-			g_Player.aModel[nCntModel].rot.y = g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Y + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Y - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_Y) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
-			g_Player.aModel[nCntModel].rot.z = g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Z + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Z - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_Z) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
+			g_Player.aModel[nCntModel].rot.x += g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_X + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_X - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_X) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
+			g_Player.aModel[nCntModel].rot.y += g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Y + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Y - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_Y) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
+			g_Player.aModel[nCntModel].rot.z += g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Z + (g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].aKey[nCntModel].Rot_Z - g_Player.aMotionInfo[0].aKeyInfo[NextKey].aKey[nCntModel].Rot_Z) * (g_Player.nCounterMotion / g_Player.aMotionInfo[0].aKeyInfo[g_Player.nKey_No].nFrame);
 		}
 	
 }

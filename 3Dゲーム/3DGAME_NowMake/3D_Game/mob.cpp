@@ -13,7 +13,7 @@
 #include "mob.h"
 #include "fade.h"
 #include "collision.h"
-#include "model.h"
+#include "shadow.h"
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // マクロ変数
@@ -56,7 +56,6 @@ void InitMob(void)
 		pMoblayer->nCuntDown = 15;
 		pMoblayer->nCuntUp = 0;
 		pMoblayer->nlife = 3;
-		pMoblayer->bColl = false;
 
 		// ファイルの読み込み
 		/* No.0 岩 */
@@ -139,8 +138,6 @@ void UninitMob(void)
 	Moblayer *pMoblayer = &g_Mob[0];
 	for (int nNumCnt = 0; nNumCnt < MOB_MAX; nNumCnt++, pMoblayer++)
 	{
-		for (int nCntModel = 0; nCntModel < 1; nCntModel++)
-		{
 			if (pMoblayer->pMesh != NULL)
 			{// メッシュの破棄
 				pMoblayer->pMesh->Release();
@@ -156,7 +153,6 @@ void UninitMob(void)
 				pMoblayer->pTexture->Release();
 				pMoblayer->pTexture = NULL;
 			}
-		}
 	}
 }
 
@@ -165,28 +161,22 @@ void UninitMob(void)
 //==================================================================================================================================================================//
 void UpdateMob(void)
 {
-	// 影の設定
-	//SetPositionShadow(g_Mob.nNumShadow, g_Mob.pos);
-
 	Moblayer *pMoblayer = &g_Mob[0];
 
 	for (int nNumCnt = 0; nNumCnt < MOB_MAX; nNumCnt++, pMoblayer++)
 	{
-
 		if (pMoblayer->bUse == true)
 		{
-
 			pMoblayer->oldpos = pMoblayer->pos;
 
 			// 位置の更新
 			pMoblayer->pos.z += pMoblayer->move.z;
 			pMoblayer->pos.x += pMoblayer->move.x;
 			pMoblayer->pos.y += pMoblayer->move.y;
-
 		}
 	}
-	SummonMob();
 	PlayerCollision();
+	SummonMob();
 }
 
 //==================================================================================================================================================================//
@@ -196,16 +186,13 @@ void DrawMob(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();	// デバイスの取得
 	Moblayer *pMoblayer = &g_Mob[0];
-	Player *pPlayer = GetPlayer();
 
 		D3DXMATRIX mtxRot, mtxTrans;				// 計算用マトリックス
 		D3DMATERIAL9 matDef;						// 現在のマテリアル保存用
 		D3DXMATERIAL *pMat;							// マテリアルデータへのポインタ
 
-
 		for (int nNumCnt = 0; nNumCnt < MOB_MAX; nNumCnt++, pMoblayer++)
 		{
-
 			if (pMoblayer->bUse == true)
 			{
 				D3DXMatrixIdentity(&pMoblayer->mtxWorld);
@@ -224,7 +211,6 @@ void DrawMob(void)
 				// 現在のマテリアルを取得
 				pDevice->GetMaterial(&matDef);
 
-
 				// マテリアルデータへのポインタを取得
 				pMat = (D3DXMATERIAL*)pMoblayer->pBuffMat->GetBufferPointer();
 
@@ -238,7 +224,6 @@ void DrawMob(void)
 					// モデルの描画
 					pMoblayer->pMesh->DrawSubset(nCntMat);
 				}
-
 				// 保存していたマテリアルを戻す
 				pDevice->SetMaterial(&matDef);
 			}
@@ -251,11 +236,12 @@ void DrawMob(void)
 //==================================================================================================================================================================//
 void SummonMob(void)
 {
-
 	Moblayer *pMoblayer = &g_Mob[0];
+
 
 	for (int nCntMob = 0; nCntMob < MOB_MAX; nCntMob++,pMoblayer++)
 	{
+
 		if (pMoblayer->bUse == false)
 		{
 			pMoblayer->nCuntUp++;	// カウントスタート
@@ -267,12 +253,11 @@ void SummonMob(void)
 				{
 					// 移動の設定
 					float fAngle = (float)((rand() % 628) - 628) / 100.f;
-
 					pMoblayer->move.z = cosf(fAngle + D3DX_PI) * 5.0f;
 					pMoblayer->move.x = sinf(fAngle - D3DX_PI) * 5.0f;
 					pMoblayer->bUse = true;
 					break;
-				
+
 				}
 			}
 		}

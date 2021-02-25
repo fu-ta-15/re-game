@@ -198,18 +198,7 @@ int SetShadow(D3DXVECTOR3 pos, float fWidth, float fDepth)
 // 誰の影か
 void SetPositionShadow(int nIdx, D3DXVECTOR3 pos)
 {
-	VERTEX_3D *pVtx;							// 頂点ポインタ
-												// 頂点バッファをロック
-	g_pVtxBuffShadow->Lock(0, 0, (void**)&pVtx, 0);
-
-	//各頂点の座標
-	pVtx[0].pos = D3DXVECTOR3(pos.x - LENGTH_SHADOW_X, 0.0f, pos.z + LENGTH_SHADOW_Z);
-	pVtx[1].pos = D3DXVECTOR3(pos.x + LENGTH_SHADOW_X, 0.0f, pos.z + LENGTH_SHADOW_Z);
-	pVtx[2].pos = D3DXVECTOR3(pos.x - LENGTH_SHADOW_X, 0.0f, pos.z - LENGTH_SHADOW_Z);
-	pVtx[3].pos = D3DXVECTOR3(pos.x + LENGTH_SHADOW_X, 0.0f, pos.z - LENGTH_SHADOW_Z);
-	// 頂点バッファをアンロック
-	g_pVtxBuffShadow->Unlock();
-
+	g_Shadow.pos = pos;
 }
 
 Shadow *GetShadow(void)

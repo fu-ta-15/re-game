@@ -11,10 +11,14 @@
 //=====================================================================================================================================================================//
 // É}ÉNÉçêÈåæ
 //=====================================================================================================================================================================//
-#define STAGE_MAXPOS_X		(50.0f)
-#define STAGE_MAXPOS_Y		(25.0f)	
-#define STAGE_MAXPOS_Z		(25.0f)
+#define STAGE_MAXPOS_X						(50.0f)
+#define STAGE_MAXPOS_Y						(25.0f)	
+#define STAGE_MAXPOS_Z						(25.0f)
 #define MAX_WALL							(4)
+#define WALL_POS							(FIELD_POS / 2)
+#define WALL_WIGTH							(FIELD_POS)
+#define WALL_HEIGHHT						(300.0f)
+#define PI_HAFE								(D3DX_PI / 2)
 
 
 
