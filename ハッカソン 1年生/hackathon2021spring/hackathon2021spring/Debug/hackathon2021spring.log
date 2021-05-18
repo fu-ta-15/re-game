@@ -11,8 +11,8 @@
   object2d.cpp
   object.cpp
   model_himiya.cpp
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\model_himiya.cpp(100): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\model_himiya.cpp(149): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\model_himiya.cpp(100): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\model_himiya.cpp(149): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   manager.cpp
   main.cpp
   light.cpp
@@ -20,22 +20,22 @@ c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring
   input.cpp
   game.cpp
   field.cpp
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(159): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(164): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(167): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(170): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(173): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(174): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(175): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(178): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(181): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(182): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\student\desktop\ハッカソン\hackathon2021spring\hackathon2021spring\field.cpp(185): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(159): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(164): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(167): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(170): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(173): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(174): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(175): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(178): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(181): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(182): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+c:\users\student\desktop\re-game\ハッカソン 1年生\hackathon2021spring\hackathon2021spring\field.cpp(185): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
   コードを生成中...
   コンパイル中...
   fade.cpp
   cube.cpp
   camera.cpp
   コードを生成中...
-  hackathon2021spring.vcxproj -> C:\Users\student\Desktop\ハッカソン\hackathon2021spring\Debug\hackathon2021spring.exe
-  hackathon2021spring.vcxproj -> C:\Users\student\Desktop\ハッカソン\hackathon2021spring\Debug\hackathon2021spring.pdb (Full PDB)
+  hackathon2021spring.vcxproj -> C:\Users\student\Desktop\re-game\ハッカソン 1年生\hackathon2021spring\Debug\hackathon2021spring.exe
+  hackathon2021spring.vcxproj -> C:\Users\student\Desktop\re-game\ハッカソン 1年生\hackathon2021spring\Debug\hackathon2021spring.pdb (Full PDB)
