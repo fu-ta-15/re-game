@@ -18,21 +18,25 @@
 #include "result.h"
 #include "pause.h"
 #include "sound.h"
+#include "camera.h"
+#include "light.h"
 
 //-----------------------------------------------------------------------------
 //静的メンバ変数宣言
 //-----------------------------------------------------------------------------
-CRenderer *CManager::m_pRenderer = NULL;				  // レンダラーポインタ
-CKey *CManager::m_pKey = NULL;							  // キーボード入力ポインタ
-CFade *CManager::m_pFade = NULL;						  // フェードポインタ
-CTitle *CManager::m_pTitle = NULL;						  // タイトルポインタ
-CTutorial *CManager::m_pTutorial = NULL;				  // チュートリアルポインタ
-CGame *CManager::m_pGame = NULL;						  // ゲームポインタ
-CResult *CManager::m_pResult = NULL;					  // リザルトポインタ
-CSound *CManager::m_pSound = NULL;						  // サウンドポインタ
-CPause *CManager::m_pPause = NULL;						  // ポーズポインタ
-bool CManager::m_bPause = false;						  // ポーズの切り替え変数
-CManager::MODE CManager::m_mode = CManager::MODE_TITLE;	  // 現在のモードの変数
+CRenderer		*CManager::m_pRenderer = NULL;				// レンダラーポインタ
+CKey			*CManager::m_pKey = NULL;					// キーボード入力ポインタ
+CFade			*CManager::m_pFade = NULL;					// フェードポインタ
+CTitle			*CManager::m_pTitle = NULL;					// タイトルポインタ
+CTutorial		*CManager::m_pTutorial = NULL;				// チュートリアルポインタ
+CGame			*CManager::m_pGame = NULL;					// ゲームポインタ
+CResult			*CManager::m_pResult = NULL;				// リザルトポインタ
+CSound			*CManager::m_pSound = NULL;					// サウンドポインタ
+CCamera			*CManager::m_pCamera = NULL;				// カメラのポインタ
+CLight			*CManager::m_pLight = NULL;					// ライトのポインタ
+CPause			*CManager::m_pPause = NULL;					// ポーズポインタ
+bool			 CManager::m_bPause = false;				// ポーズの切り替え変数
+CManager::MODE	 CManager::m_mode = CManager::MODE_TITLE;	// 現在のモードの変数
 
 //=============================================================================
 // コンストラクタ
@@ -61,7 +65,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 
 	// レンダラ初期化
 	if (FAILED(m_pRenderer->Init(hWnd, bWindow)))
-	{
+	{// NULLチェック
 		return -1;
 	}
 
@@ -70,7 +74,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 
 	// キーボード初期化
 	if (FAILED(m_pKey->Init(hInstance, hWnd)))
-	{
+	{// NULLチェック
 		return -1;
 	}
 
@@ -79,18 +83,39 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 
 	// サウンドの初期化
 	if (FAILED(m_pSound->Init(hWnd)))
-	{
+	{// NULLチェック
 		return -1;
+	}
+
+	// カメラの生成
+	m_pCamera = new CCamera;
+
+	// カメラの初期化
+	if (m_pCamera != NULL)
+	{// NULLチェック
+		m_pCamera->Init();
+	}
+
+	// ライトの生成
+	m_pLight = new CLight;
+
+	// ライトの初期化
+	if (m_pLight != NULL)
+	{// NULLチェック
+		m_pLight->Init();
 	}
 
 	// フェードの生成
 	m_pFade = new CFade;
 
 	//フェードの初期化
-	m_pFade->Init();
+	if (m_pFade != NULL)
+	{// NULLチェック
+		m_pFade->Init();
+	}
 
 	// フェードしてからタイトルへ
-	m_pFade->SetFade(MODE_TITLE);
+	m_pFade->SetFade(m_mode);
 
 	return S_OK;
 }
@@ -135,6 +160,22 @@ void CManager::Uninit(void)
 		m_pSound = NULL;
 	}
 
+	// カメラの開放
+	if (m_pCamera != NULL)
+	{// NULLチェック
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = NULL;
+	}
+
+	// ライトの開放
+	if (m_pLight != NULL)
+	{// NULLチェック
+		m_pLight->Uninit();
+		delete m_pLight;
+		m_pLight = NULL;
+	}
+
 	// シーンの全削除
 	CScene::ReleaseAll();
 }
@@ -160,6 +201,18 @@ void CManager::Update(void)
 	if (m_pFade != NULL)
 	{// NULLチェック
 		m_pFade->Update();		
+	}
+
+	// カメラの更新
+	if (m_pCamera != NULL)
+	{// NULLチェック
+		m_pCamera->Update();
+	}
+
+	// ライトの更新
+	if (m_pLight != NULL)
+	{// NULLチェック
+		m_pLight->Update();
 	}
 
 	// ポーズの更新
@@ -292,30 +345,6 @@ void CManager::SetMode(MODE mode)
 
 	// モードの生成
 	CreateMode(m_mode);
-}
-
-//=============================================================================
-// モードの取得
-//=============================================================================
-CManager::MODE CManager::GetMode(void)
-{
-	return m_mode;
-}
-
-//=============================================================================
-// レンダラークラスのゲット関数
-//=============================================================================
-CRenderer* CManager::GetRenderer(void)
-{
-	return m_pRenderer;
-}
-
-//=============================================================================
-// キーボード入力取得
-//=============================================================================
-CKey* CManager::GetKey(void)
-{
-	return m_pKey;
 }
 
 //=============================================================================

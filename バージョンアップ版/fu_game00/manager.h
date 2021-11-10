@@ -1,9 +1,9 @@
-//##################################################################################################################################################################//
+//#############################################################################
 //
 // マネージャーヘッダファイル [manager.h]
 // Author : SUZUKI FUUTA
 //
-//##################################################################################################################################################################//
+//#############################################################################
 #ifndef _MANAGER_H_
 #define _MANAGER_H_
 
@@ -31,6 +31,8 @@ class CGame;		// ゲーム
 class CResult;		// リザルト
 class CPause;		// ポーズ
 class CSound;		// サウンド
+class CCamera;		// カメラ
+class CLight;		// ライト
 
 //-----------------------------------------------------------------------------
 // クラス
@@ -38,9 +40,9 @@ class CSound;		// サウンド
 class CManager
 {
 public:
-	//-----------------------------------------------------------------------------
+	//-------------------------------------------------------------------------
 	//モードの列挙型
-	//-----------------------------------------------------------------------------
+	//-------------------------------------------------------------------------
 	typedef enum
 	{
 		MODE_TITLE = 0,	//タイトル画面
@@ -50,9 +52,9 @@ public:
 		MODE_MAX		//MAX数値
 	}MODE;
 
-	//-----------------------------------------------------------------------------
+	//-------------------------------------------------------------------------
 	// メンバ関数
-	//-----------------------------------------------------------------------------
+	//-------------------------------------------------------------------------
 	CManager();
 	~CManager();
 
@@ -69,14 +71,18 @@ public:
 	static void SetPause(bool bPause) { m_bPause = bPause; }
 
 	// Get関数
-	static MODE GetMode(void);									
-	static CRenderer *GetRenderer(void);
-	static CKey *GetKey(void);
-	static CFade * CManager::GetFade(void){ return m_pFade; }
-	static CSound *GetSound(void) { return m_pSound; }
-	static CPause *GetPause(void) { return m_pPause; }
+	static MODE GetMode(void)				{ return m_mode; }
+	static CRenderer *GetRenderer(void)		{ return m_pRenderer; }
+	static CKey *GetKey(void)				{ return m_pKey; }
+	static CFade * CManager::GetFade(void)	{ return m_pFade; }
+	static CSound *GetSound(void)			{ return m_pSound; }
+	static CPause *GetPause(void)			{ return m_pPause; }
+	static CCamera *GetCamera(void)			{ return m_pCamera; }
+	static CLight *GetLight(void)			{ return m_pLight; }
+
 
 private:
+	// ポーズの更新
 	void PauseUpdate(void);
 
 	static MODE				 m_mode;				// モード
@@ -87,12 +93,11 @@ private:
 	static CTutorial		*m_pTutorial;			// チュートリアルのポインタ
 	static CGame			*m_pGame;				// ゲームのポインタ
 	static CResult			*m_pResult;				// リザルトのポインタ
-	static CPause			*m_pPause;				// ポーズのポインタ
 	static CSound			*m_pSound;				// サウンドのポインタ
-	static bool				 m_bPause;
+	static CCamera			*m_pCamera;				// カメラのポインタ
+	static CLight			*m_pLight;				// ライトのポインタ
+	static CPause			*m_pPause;				// ポーズのポインタ
+	static bool				 m_bPause;				// ポーズのフラグ
 };
-
-
-
 
 #endif // !_MANAGER_H_

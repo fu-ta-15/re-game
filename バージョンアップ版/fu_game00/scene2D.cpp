@@ -59,6 +59,9 @@ CScene2D * CScene2D::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 	return pScene2D;
 }
 
+//=============================================================================
+// É|ÉäÉSÉìÇÃê∂ê¨
+//=============================================================================
 CScene2D * CScene2D::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, Priority type)
 {
 	CScene2D *pScene2D = NULL;

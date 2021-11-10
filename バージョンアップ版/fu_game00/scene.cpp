@@ -10,6 +10,8 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "renderer.h"
+#include "manager.h"
+#include "camera.h"
 
 //-----------------------------------------------------------------------------
 // 静的メンバ変数
@@ -143,6 +145,8 @@ void CScene::ReleaseAll(void)
 			}
 		}
 	}
+
+	// ポーズされていたら
 	if (m_pPauseScene != NULL)
 	{
 		for (int nCntPause = 0; nCntPause < PAUSE_MAX; nCntPause++)
@@ -239,6 +243,8 @@ void CScene::UpdateAll(void)
 //=============================================================================
 void CScene::DrawAll(void)
 {
+	CManager::GetCamera()->SetCamera();
+
 	for (int nCntType = 0; nCntType < OBJ_MAX; nCntType++)
 	{
 		if (m_pTop[nCntType] != NULL)

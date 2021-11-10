@@ -22,6 +22,7 @@
     <ClCompile Include="boss.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bulletmesh.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="Dinput.cpp" />
@@ -29,9 +30,9 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="gauge.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="keyinput.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -41,7 +42,6 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="pause.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -56,6 +56,7 @@
     <ClInclude Include="boss.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="bulletmesh.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="Dinput.h" />
@@ -63,9 +64,9 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="gauge.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="keyinput.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="material.h" />
@@ -76,11 +77,11 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2D.h" />
+    <ClInclude Include="secene3D.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />

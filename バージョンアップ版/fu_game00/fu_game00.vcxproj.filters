@@ -144,17 +144,17 @@
     <ClCompile Include="collision.cpp">
       <Filter>game\effect</Filter>
     </ClCompile>
-    <ClCompile Include="polygon.cpp">
-      <Filter>main\polygon\ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gauge.cpp">
-      <Filter>game\effect</Filter>
-    </ClCompile>
     <ClCompile Include="bulletmesh.cpp">
       <Filter>game\effect</Filter>
     </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>game\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>main\system\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>main\system\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,17 +245,20 @@
     <ClInclude Include="collision.h">
       <Filter>game\effect</Filter>
     </ClInclude>
-    <ClInclude Include="polygon.h">
-      <Filter>main\polygon\ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="gauge.h">
-      <Filter>game\effect</Filter>
-    </ClInclude>
     <ClInclude Include="bulletmesh.h">
       <Filter>game\effect</Filter>
     </ClInclude>
     <ClInclude Include="core.h">
       <Filter>game\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>main\system\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>main\system\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="secene3D.h">
+      <Filter>main\polygon\ソースファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
