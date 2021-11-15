@@ -13,7 +13,7 @@
 #include "keyinput.h"
 #include "scene2D.h"
 #include "manager.h"
-
+#include "imguimanager.h"
 //-----------------------------------------------------------------------------
 // マクロ定義
 //-----------------------------------------------------------------------------
@@ -23,6 +23,9 @@
 //-----------------------------------------------------------------------------
 // プロトタイプ宣言
 //-----------------------------------------------------------------------------
+// Win32 message handler
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 //-----------------------------------------------------------------------------
@@ -194,6 +197,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //=============================================================================
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+		return true;
+
 	switch(uMsg)
 	{
 	case WM_CREATE:

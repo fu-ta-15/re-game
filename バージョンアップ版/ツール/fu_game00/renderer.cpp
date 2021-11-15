@@ -15,6 +15,7 @@
 #include "manager.h"
 #include "fade.h"
 #include "pause.h"
+#include "imguimanager.h"
 
 //=============================================================================
 // コンストラクタ
@@ -64,6 +65,7 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;	// インターバル
 
+
 	// デバイスの生成
 	// ディスプレイアダプタを表すためのデバイスを作成
 	// 描画と頂点処理をハードウェアで行なう
@@ -93,6 +95,9 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 			}
 		}
 	}
+	m_d3dpp = d3dpp;
+
+	ImGuiMana::Init(hWnd, d3dpp, m_pD3DDevice);
 
 	// レンダーステートの設定
 	m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);				// カリングの設定（　　　,裏面をカリング）
@@ -148,6 +153,8 @@ void CRenderer::Uninit(void)
 		m_pD3D->Release();
 		m_pD3D = NULL;
 	}
+
+	ImGuiMana::Uninit();
 }
 
 //=============================================================================
@@ -155,6 +162,8 @@ void CRenderer::Uninit(void)
 //=============================================================================
 void CRenderer::Update(void)
 {
+	ImGuiMana::Update();
+
 	CKey *pKey = CManager::GetKey();	   // キー入力情報
 
 	// シーンの更新
@@ -199,11 +208,17 @@ void CRenderer::Draw(void)
 		// FPS表示
 		DrawFPS();
 #endif
+
+		ImGuiMana::Draw();
+
 		// Direct3Dによる描画の終了
 		m_pD3DDevice->EndScene();
 	}
 	// バックバッファとフロントバッファの入れ替え
 	HRESULT result = m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+
+	ImGuiMana::DrawEnd(result, m_pD3DDevice, m_d3dpp);
+
 }
 
 #ifdef _DEBUG

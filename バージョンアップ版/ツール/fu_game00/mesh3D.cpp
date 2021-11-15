@@ -299,7 +299,13 @@ void CMesh3D::Update(void)
 			}
 			else
 			{
-				m_pVtx[nCnt].nor = m_Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)] + m_Nor[((((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)) + 1)] + m_Nor[((((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)) + 2)] + m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) + (nCntVertical * 2))] + m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) + 1)];
+				m_pVtx[nCnt].nor =  m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - 1)] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) + 1)];
+
 				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 6;
 			}
 		}
@@ -316,7 +322,9 @@ void CMesh3D::Update(void)
 			}
 			else
 			{
-				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - ((nCntVertical * 2) * nCntSide))] + m_Nor[((((nNumVertical * 2) * nCntSide) - (((nCntVertical * 2) * nCntSide))) + 1)] + m_Nor[((((nNumVertical * 2) * nCntSide) - ((nCntVertical * 2) * nCntSide)) + 2)];
+				m_pVtx[nCnt].nor =	m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
+									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))];
 				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
 			}
 		}
@@ -437,9 +445,8 @@ void CMesh3D::MoveMesh(D3DXVECTOR3 move)
 	m_pVtxBuff->Unlock();
 }
 
-void CMesh3D::MeshWave(const D3DXVECTOR3& center, int ntime)
+void CMesh3D::MeshWave(const D3DXVECTOR3& center, int ntime, float fHeight, int nCycle)
 {
-
 	// 頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&m_pVtx, 0);
 
@@ -448,12 +455,11 @@ void CMesh3D::MeshWave(const D3DXVECTOR3& center, int ntime)
 	{
 		float Dicetan = getDistance(center.x, center.z, m_pVtx[nCnt].pos.x, m_pVtx[nCnt].pos.z);
 
-		m_pVtx[nCnt].pos.y = 50.0f * sinf((2.0f * D3DX_PI) / 200 * (ntime - Dicetan));
+		m_pVtx[nCnt].pos.y = (fHeight) * sinf((2.0f * D3DX_PI) / nCycle * (ntime - Dicetan));
 	}
 
 	// 頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
-
 }
 
 void CMesh3D::MeshWave(int nID, int ntime, float fHeight)
@@ -534,10 +540,6 @@ void CMesh3D::MeshMove(D3DXVECTOR3 & move, int ntime, const D3DXVECTOR3 & center
 
 	// 頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
-}
-
-void CMesh3D::MeshMove(D3DXVECTOR3 & move, int ntime, int nID)
-{
 }
 
 void CMesh3D::MeshCycleMove(void)

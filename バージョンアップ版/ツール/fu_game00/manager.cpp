@@ -36,7 +36,7 @@ CCamera			*CManager::m_pCamera = NULL;				// カメラのポインタ
 CLight			*CManager::m_pLight = NULL;					// ライトのポインタ
 CPause			*CManager::m_pPause = NULL;					// ポーズポインタ
 bool			 CManager::m_bPause = false;				// ポーズの切り替え変数
-CManager::MODE	 CManager::m_mode = CManager::MODE_TITLE;	// 現在のモードの変数
+CManager::MODE	 CManager::m_mode = CManager::MODE_GAME;	// 現在のモードの変数
 
 //=============================================================================
 // コンストラクタ

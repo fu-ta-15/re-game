@@ -40,6 +40,7 @@ private:
 	void DrawFPS(void);
 
 	// メンバ変数
+	D3DPRESENT_PARAMETERS		m_d3dpp;
 	LPDIRECT3D9					m_pD3D			= NULL;		// Direct3Dオブジェクト
 	LPDIRECT3DDEVICE9			m_pD3DDevice	= NULL;		// Deviceオブジェクト(描画に必要)
 	LPD3DXFONT					m_pFont			= NULL;		// フォントへのポインタ

@@ -57,7 +57,7 @@ public:
 	void MoveMesh(D3DXVECTOR3 move);
 
 
-	void MeshWave(const D3DXVECTOR3& center, int ntime);
+	void MeshWave(const D3DXVECTOR3& center, int ntime, float fHeight, int nCycle);
 	void MeshWave(int nID, int ntime, float fHeight);
 	void VtxPos(int nID, float fHeight);
 

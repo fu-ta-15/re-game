@@ -36,6 +36,7 @@ public:
 	void Update(void);
 	void Draw(void);
 
+	static CMesh3D *GetMesh() { return m_pNote; }
 
 private:
 
@@ -49,7 +50,7 @@ private:
 	float fHeight = 0.0f;
 	D3DXVECTOR3 m_WaveCenter = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	CMesh3D	*m_pNote = NULL;
+	static CMesh3D	*m_pNote;
 
 };
 

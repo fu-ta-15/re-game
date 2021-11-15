@@ -29,13 +29,15 @@
 //-----------------------------------------------------------------------------
 // 静的メンバ変数
 //-----------------------------------------------------------------------------
+CMesh3D *CGame::m_pNote = NULL;
+
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CGame::CGame() : CScene(OBJ_NONE)
 {
-	m_pNote = NULL;
+	
 }
 
 //=============================================================================
@@ -73,9 +75,8 @@ HRESULT CGame::Init(void)
 
 	if (m_pNote == NULL)
 	{
-		m_pNote = CMesh3D::Create(4, 4, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(200.0f, 0.0f, 200.0f));
+		m_pNote = CMesh3D::Create(150, 150, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(200.0f, 0.0f, 200.0f));
 	}
-
 
 	return S_OK;
 }
@@ -91,6 +92,7 @@ void CGame::Uninit(void)
 	// サウンドの停止
 	pSound->StopSound();
 
+	// Meshの開放
 	m_pNote->Uninit();
 
 	// オブジェクトの破棄
@@ -104,14 +106,15 @@ void CGame::Update(void)
 {
 	// キー入力クラスのポインタ
 	CKey *pKey = CManager::GetKey();
+
 	// フェード情報
 	CFade::FADE Fade = CFade::GetFade();
 
 	fTime++;
 
-	m_pNote->VtxPos(4, fHeight);
+	//m_pNote->VtxPos(4, fHeight);
 
-	m_pNote->MeshWave(m_WaveCenter, fTime);
+	//m_pNote->MeshWave(m_WaveCenter, fTime);
 
 	if (pKey->GetState(CKey::STATE_PRESSE, DIK_NUMPAD8))
 	{
@@ -143,7 +146,6 @@ void CGame::Update(void)
 		// リザルトシーンに移動
 		CManager::GetFade()->SetFade(CManager::MODE_RESULT);
 	}
-
 }
 
 //=============================================================================
