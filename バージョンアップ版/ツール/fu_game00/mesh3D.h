@@ -54,18 +54,11 @@ public:
 	int GetVtxNum() { return m_nVtx; }
 	VERTEX_3D *GetVERTEX() { return m_pVtx; }
 
-	void MoveMesh(D3DXVECTOR3 move);
-
-
 	void MeshWave(const D3DXVECTOR3& center, int ntime, float fHeight, int nCycle);
+	void MeshWave(const D3DXVECTOR3& center, int ntime, int nCycle);
 	void MeshWave(int nID, int ntime, float fHeight);
-	void VtxPos(int nID, float fHeight);
-
-
-
-	void MeshMove(D3DXVECTOR3& move, int ntime, const D3DXVECTOR3& center);
-	void MeshMove(D3DXVECTOR3& move, int ntime, int nID);
 	void MeshCycleMove(void);
+	void VtxPos(int nID, float fHeight);
 
 private:
 	HRESULT MeshCreate(int nVertical, int nSide, WORD *pIdx);

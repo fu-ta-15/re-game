@@ -16,7 +16,6 @@
 #include "tutorial.h"
 #include "game.h"
 #include "result.h"
-#include "pause.h"
 #include "sound.h"
 #include "camera.h"
 #include "light.h"
@@ -214,9 +213,6 @@ void CManager::Update(void)
 	{// NULLチェック
 		m_pLight->Update();
 	}
-
-	// ポーズの更新
-	PauseUpdate();
 }
 
 //=============================================================================
@@ -239,23 +235,23 @@ void CManager::UninitMode(MODE mode)
 	// 各モードの開放
 	switch (mode)
 	{
-		// タイトルモード
-	case MODE_TITLE:
-		if (m_pTitle != NULL)
-		{// NULLチェック
-			m_pTitle->Uninit();
-			m_pTitle = NULL;
-		}
-		break;
+	//	// タイトルモード
+	//case MODE_TITLE:
+	//	if (m_pTitle != NULL)
+	//	{// NULLチェック
+	//		m_pTitle->Uninit();
+	//		m_pTitle = NULL;
+	//	}
+	//	break;
 
-		// チュートリアルモード
-	case MODE_TUTORIAL:
-		if (m_pTutorial != NULL)
-		{// NULLチェック
-			m_pTutorial->Uninit();
-			m_pTutorial = NULL;
-		}
-		break;
+	//	// チュートリアルモード
+	//case MODE_TUTORIAL:
+	//	if (m_pTutorial != NULL)
+	//	{// NULLチェック
+	//		m_pTutorial->Uninit();
+	//		m_pTutorial = NULL;
+	//	}
+	//	break;
 
 		// ゲームモード
 	case MODE_GAME:
@@ -266,14 +262,14 @@ void CManager::UninitMode(MODE mode)
 		}
 		break;
 
-		// リザルトモード
-	case MODE_RESULT:
-		if (m_pResult != NULL)
-		{// NULLチェック
-			m_pResult->Uninit();
-			m_pResult = NULL;
-		}
-		break;
+	//	// リザルトモード
+	//case MODE_RESULT:
+	//	if (m_pResult != NULL)
+	//	{// NULLチェック
+	//		m_pResult->Uninit();
+	//		m_pResult = NULL;
+	//	}
+	//	break;
 
 	default:
 		break;
@@ -288,21 +284,21 @@ void CManager::CreateMode(MODE mode)
 	// 各モードの生成
 	switch (mode)
 	{
-		// タイトルモード
-	case MODE_TITLE:	
-		if (m_pTitle == NULL)
-		{// NULLチェック
-			m_pTitle = CTitle::Create();
-		}
-		break;
+	//	// タイトルモード
+	//case MODE_TITLE:	
+	//	if (m_pTitle == NULL)
+	//	{// NULLチェック
+	//		m_pTitle = CTitle::Create();
+	//	}
+	//	break;
 
-		// チュートリアルモード
-	case MODE_TUTORIAL:
-		if (m_pTutorial == NULL)
-		{// NULLチェック
-			m_pTutorial = CTutorial::Create();
-		}
-		break;
+	//	// チュートリアルモード
+	//case MODE_TUTORIAL:
+	//	if (m_pTutorial == NULL)
+	//	{// NULLチェック
+	//		m_pTutorial = CTutorial::Create();
+	//	}
+	//	break;
 
 		// ゲームモード
 	case MODE_GAME:		
@@ -312,13 +308,13 @@ void CManager::CreateMode(MODE mode)
 		}
 		break;
 
-		// リザルトモード
-	case MODE_RESULT:	
-		if (m_pResult == NULL)
-		{// NULLチェック
-			m_pResult = CResult::Create();
-		}
-		break;
+	//	// リザルトモード
+	//case MODE_RESULT:	
+	//	if (m_pResult == NULL)
+	//	{// NULLチェック
+	//		m_pResult = CResult::Create();
+	//	}
+	//	break;
 
 	default:
 		break;
@@ -339,49 +335,8 @@ void CManager::SetMode(MODE mode)
 	//モードを設定
 	m_mode = mode;
 
-	// ポーズの状態を初期化
-	m_bPause = false;
-	m_pPause = NULL;
 
 	// モードの生成
 	CreateMode(m_mode);
-}
-
-//=============================================================================
-// ポーズの更新
-//=============================================================================
-void CManager::PauseUpdate(void)
-{
-	// キー入力情報
-	CKey *pKey = CManager::GetKey();	   
-
-	// フェード情報
-	CFade::FADE Fade = CFade::GetFade();  
-
-	// フェードが何もしていない時
-	if (Fade == CFade::FADE_NONE && m_mode == MODE_GAME)
-	{
-		// Pが押されたとき
-		if (pKey->GetState(CKey::STATE_TRIGGER, DIK_P) == true)
-		{
-			// falseかtrueに切り替える
-			m_bPause = m_bPause ? false : true;	
-		}
-
-		// ポーズが開始されたとき
-		if (m_bPause == true && m_pPause == NULL)
-		{
-			// ポーズを生成
-			m_pPause = CPause::Create();	
-		}
-		else if (m_bPause == false && m_pPause != NULL)
-		{
-			// ポーズの開放
-			m_pPause->Uninit();
-
-			// NULLを代入
-			m_pPause = NULL;
-		}
-	}
 }
 

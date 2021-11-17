@@ -29,7 +29,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CMesh::CMesh(int nPriority) : CScene(nPriority)
+CMesh::CMesh(int nPriority) : CScene((Priority)nPriority)
 {
 	m_pVtxBuff = NULL;
 	m_pTexture = NULL;

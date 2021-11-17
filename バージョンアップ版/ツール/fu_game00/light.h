@@ -32,7 +32,7 @@ public:
 
 private:
 	D3DLIGHT9 m_Light[MAX_LIGHT];
-
+	D3DXVECTOR3 m_vecDir[MAX_LIGHT];
 };
 
 #endif // !

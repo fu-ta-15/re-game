@@ -16,8 +16,6 @@
 //-----------------------------------------------------------------------------
 // 静的メンバ変数
 //-----------------------------------------------------------------------------
-CScene *CScene::m_pPauseScene = NULL;		  // ポーズポインタ
-CScene *CScene::m_pPauseObj[PAUSE_MAX] = {};  // ポーズオブジェクトのポインタ
 CScene *CScene::m_pTop[OBJ_MAX] = {};		  // シーンの先頭
 CScene *CScene::m_pCur[OBJ_MAX] = {};		  // シーンの最後尾
 
@@ -58,32 +56,6 @@ CScene::CScene(Priority type)
 
 	// 自身を最後尾
 	m_pCur[m_type] = this;
-}
-
-//=============================================================================
-// ポーズオブジェクトのコンストラクタ
-//=============================================================================
-CScene::CScene(PauseType type)
-{
-	// NULLチェック
-	if (m_pPauseObj[type] == NULL)
-	{
-		// ポーズシーンに情報を入れる
-		m_pPauseObj[type] = this;
-	}
-}
-
-//=============================================================================
-// ポーズ合図用のコンストラクタ
-//=============================================================================
-CScene::CScene(bool bpause)
-{
-	// ポーズされていなかったら・NULLチェック
-	if (bpause == true && m_pPauseScene == NULL)
-	{
-		// ポーズを行う合図
-		m_pPauseScene = this;
-	}
 }
 
 //=============================================================================
@@ -145,19 +117,6 @@ void CScene::ReleaseAll(void)
 			}
 		}
 	}
-
-	// ポーズされていたら
-	if (m_pPauseScene != NULL)
-	{
-		for (int nCntPause = 0; nCntPause < PAUSE_MAX; nCntPause++)
-		{
-			if (m_pPauseObj[nCntPause] != NULL)
-			{
-				// ポーズのシーンを削除
-				m_pPauseObj[nCntPause]->Uninit();
-			}
-		}
-	}
 }
 
 //=============================================================================
@@ -165,31 +124,27 @@ void CScene::ReleaseAll(void)
 //=============================================================================
 void CScene::UpdateAll(void)
 {
-	// ポーズ中じゃなかったら
-	if (m_pPauseScene == NULL)
+	for (int nCntType = 0; nCntType < OBJ_MAX; nCntType++)
 	{
-		for (int nCntType = 0; nCntType < OBJ_MAX; nCntType++)
+		if (m_pTop[nCntType] != NULL)
 		{
-			if (m_pTop[nCntType] != NULL)
+			// ポインタに先頭の情報を入れる
+			CScene *pScene = m_pTop[nCntType];
+
+			while (pScene != NULL)
 			{
-				// ポインタに先頭の情報を入れる
-				CScene *pScene = m_pTop[nCntType];
+				// 次のシーンを保存
+				CScene *pSceneNext = pScene->m_pNext;
 
-				while (pScene != NULL) 
+				// 死亡フラグを持っていなかったら
+				if (pScene->m_bDeath != true)
 				{
-					// 次のシーンを保存
-					CScene *pSceneNext = pScene->m_pNext;
-
-					// 死亡フラグを持っていなかったら
-					if (pScene->m_bDeath != true)
-					{
-						// 更新処理
-						pScene->Update();
-					}
-
-					// 次のシーンを取得
-					pScene = pSceneNext;
+					// 更新処理
+					pScene->Update();
 				}
+
+				// 次のシーンを取得
+				pScene = pSceneNext;
 			}
 		}
 	}
@@ -217,22 +172,6 @@ void CScene::UpdateAll(void)
 
 				// 次のシーンを取得
 				pScene = pSceneNext;
-			}
-		}
-	}
-
-	// ポーズ中だったら
-	if (m_pPauseScene != NULL)
-	{
-		// ポーズの更新
-		m_pPauseScene->Update();
-
-		for (int nCntPause = 0; nCntPause < PAUSE_MAX; nCntPause++)
-		{
-			if (m_pPauseObj[nCntPause] != NULL)
-			{
-				// ポーズシーンの更新
-				m_pPauseObj[nCntPause]->Update();
 			}
 		}
 	}
@@ -270,18 +209,6 @@ void CScene::DrawAll(void)
 		}
 	}
 
-	// ポーズ中だったら
-	if (m_pPauseScene != NULL)
-	{
-		for (int nCntPause = 0; nCntPause < PAUSE_MAX; nCntPause++)
-		{
-			if (m_pPauseObj[nCntPause] != NULL)
-			{
-				// ポーズシーンの描画
-				m_pPauseObj[nCntPause]->Draw();
-			}
-		}
-	}
 }
 
 //=============================================================================
@@ -327,32 +254,6 @@ void CScene::DeathRelease(void)
 
 	// 自身を削除
 	delete this;
-}
-
-//=============================================================================
-// ポーズの削除
-//=============================================================================
-void CScene::PauseRelease(void)
-{
-	if (m_pPauseScene != NULL)
-	{
-		for (int nCntPause = 0; nCntPause < PAUSE_MAX; nCntPause++)
-		{
-			if (m_pPauseObj[nCntPause] != NULL)
-			{
-				// ポーズシーンを削除
-				delete m_pPauseObj[nCntPause];
-
-				// NULLを代入
-				m_pPauseObj[nCntPause] = NULL;
-			}
-		}
-		// ポーズを削除
-		delete m_pPauseScene;
-
-		// NULLを代入
-		m_pPauseScene = NULL;
-	}
 }
 
 //=============================================================================

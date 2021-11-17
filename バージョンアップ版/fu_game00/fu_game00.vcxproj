@@ -36,6 +36,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="mesh3D.cpp" />
     <ClCompile Include="move.cpp" />
     <ClCompile Include="normalenemy.cpp" />
     <ClCompile Include="number.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="mesh3D.h" />
     <ClInclude Include="move.h" />
     <ClInclude Include="normalenemy.h" />
     <ClInclude Include="number.h" />
@@ -81,7 +83,6 @@
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2D.h" />
-    <ClInclude Include="secene3D.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />

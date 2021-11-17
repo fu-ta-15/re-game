@@ -32,20 +32,8 @@ public:
 		OBJ_EFFECT1,	// エフェクトオブジェクト１
 		OBJ_MAX
 	}ObjectType;	
-	
-	// ポーズの種類
-	enum PauseType
-	{
-		PAUSE_BG = 0,	// ポーズの背景
-		PAUSE_BUTTON1,	// ポーズのボタン１
-		PAUSE_BUTTON2,	// ポーズのボタン２
-		PAUSE_BUTTON3,	// ポーズのボタン３
-		PAUSE_MAX
-	};
 
 	CScene(Priority type);				// コンストラクタ
-	CScene(PauseType type);				// ポーズ用コンストラクタ
-	CScene(bool bpause);				// ポーズ生成合図用コンストラクタ
 
 	// 仮想純粋関数
 	virtual ~CScene();					// デストラク
@@ -60,8 +48,6 @@ public:
 
 	void Release(void);					// Release 
 	void DeathRelease(void);			// 死亡フラグを持っている物のRelease
-	void PauseRelease(void);			// ポーズのRelease
-
 
 	// Set関数 
 	void SetPos(D3DXVECTOR3 pos)	{ m_pos = pos; }		// 位置の設定
@@ -81,8 +67,6 @@ public:
 private:
 	static CScene		*m_pTop[OBJ_MAX];			// 先頭のオブジェクトへのポインタ
 	static CScene		*m_pCur[OBJ_MAX];			// 現在（最後尾）のオブジェクトへのポインタ
-	static CScene		*m_pPauseScene;				// シーンを止める静的変数
-	static CScene		*m_pPauseObj[PAUSE_MAX];	// ポーズのオブジェクト
 	CScene				*m_pPrev;					// 前のオブジェクトへのポインタ
 	CScene				*m_pNext;					// 次のオブジェクトへのポインタ
 	Priority			 m_type;					// オブジェクタイプ

@@ -14,7 +14,6 @@
 #include "keyinput.h"
 #include "manager.h"
 #include "fade.h"
-#include "pause.h"
 #include "imguimanager.h"
 
 //=============================================================================

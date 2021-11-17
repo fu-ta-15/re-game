@@ -156,6 +156,9 @@
     <ClCompile Include="light.cpp">
       <Filter>main\system\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="mesh3D.cpp">
+      <Filter>main\polygon\ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -257,8 +260,8 @@
     <ClInclude Include="light.h">
       <Filter>main\system\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="secene3D.h">
-      <Filter>main\polygon\ソースファイル</Filter>
+    <ClInclude Include="mesh3D.h">
+      <Filter>main\polygon\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

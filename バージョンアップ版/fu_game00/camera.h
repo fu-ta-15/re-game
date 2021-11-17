@@ -22,16 +22,16 @@ public:
 	void SetCamera(void);
 
 private:
-	D3DXVECTOR3 m_posV;			// 視点(現在)
-	D3DXVECTOR3 m_posR;			// 注視点(現在)
-	D3DXVECTOR3 m_posVDest;		// 視点(目的)
-	D3DXVECTOR3 m_posRDest;		// 注視点(目的)
+	D3DXVECTOR3 m_posV;				// 視点(現在)
+	D3DXVECTOR3 m_posR;				// 注視点(現在)
+	D3DXVECTOR3 m_posVDest;			// 視点(目的)
+	D3DXVECTOR3 m_posRDest;			// 注視点(目的)
 	D3DXVECTOR3 m_moveX;			// 移動量
 	D3DXVECTOR3 m_moveZ;			// 移動量
 	D3DXVECTOR3 m_moveVY;			// 移動量
 	D3DXVECTOR3 m_moveRY;			// 移動量
-	D3DXVECTOR3 m_rot;			// カメラの向き
-	D3DXVECTOR3 m_vecU;			// 上方向ベクトル
+	D3DXVECTOR3 m_rot;				// カメラの向き
+	D3DXVECTOR3 m_vecU;				// 上方向ベクトル
 	D3DXMATRIX	m_mtxProjection;	// プロジェクションマトリックス
 	D3DXMATRIX	m_mtxView;			// ビューマトリックス
 };

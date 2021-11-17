@@ -4,7 +4,6 @@
 // Author : SUZUKI FUUTA
 //
 //*****************************************************************************
-
 //-----------------------------------------------------------------------------
 // インクルードファイル
 //-----------------------------------------------------------------------------
@@ -17,6 +16,7 @@
 #include "bullet.h"
 #include "mesh.h"
 #include "move.h"
+#include "sound.h"
 
 //-----------------------------------------------------------------------------
 // マクロ変数
@@ -32,6 +32,7 @@
 //-----------------------------------------------------------------------------
 CScene2D *CTitle::m_paTitleUI[UI_MAX] = {};
 CMesh *CTitle::m_pTitleLogo = NULL;
+CMesh3D *CTitle::m_pNote = NULL;
 
 //=============================================================================
 // コンストラクタ
@@ -74,8 +75,8 @@ CTitle * CTitle::Create(void)
 HRESULT CTitle::Init(void)
 {
 	// 背景の生成
-	m_paTitleUI[UI_BG] = CScene2D::Create(CENTER_POS, TITLE_BG_SIZE);
-	m_paTitleUI[UI_BG]->CreateTexture("data/TEXTURE/BG.jpg");
+	//m_paTitleUI[UI_BG] = CScene2D::Create(CENTER_POS, TITLE_BG_SIZE);
+	//m_paTitleUI[UI_BG]->CreateTexture("data/TEXTURE/BG.jpg");
 
 	// Buttonの生成
 	m_paTitleUI[UI_BUTTON] = CScene2D::Create(TITLE_BUTTON_POS, TITLE_BUTTON_SIZE);
@@ -84,6 +85,11 @@ HRESULT CTitle::Init(void)
 	// LOGOの生成
 	m_pTitleLogo = CMesh::Create(90, 0, TITLE_LOGO_POS, TITLE_LOGO_SIZE, CScene::OBJ_NONE);
 	m_pTitleLogo->CreateTexture("data/TEXTURE/TitleUI.png");
+
+	if (m_pNote == NULL)
+	{
+		m_pNote = CMesh3D::Create(150, 150, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(200.0f, 0.0f, 200.0f));
+	}
 
 	// サウンドの開始
 	CSound *pSound = CManager::GetSound();

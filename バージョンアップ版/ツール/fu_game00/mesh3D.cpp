@@ -115,10 +115,14 @@ HRESULT CMesh3D::Init(void)
 	m_nVtx = VertexCreate(m_nVertical, m_nSide);			// 総合頂点数
 	m_nIdx = IndexCreate(m_nVertical, m_nSide);				// 総合インデックス
 
-	m_Vector = new D3DXVECTOR3*[(m_nVertical + 2)];
-	for (int nSize = 0; nSize < (m_nSide + 2); nSize++)
+	int nVertical = (m_nVertical + 2);
+	int nSide = (m_nSide + 2);
+
+	m_Vector = new D3DXVECTOR3*[nVertical];
+
+	for (int nSize = 0; nSize < nVertical; nSize++)
 	{
-		m_Vector[nSize] = new D3DXVECTOR3[(m_nSide + 2)];
+		m_Vector[nSize] = new D3DXVECTOR3[nSide];
 	}
 
 	m_Nor = new D3DXVECTOR3[(((1 + m_nVertical) * 2) * (1 + m_nSide))];
@@ -203,144 +207,7 @@ void CMesh3D::Update(void)
 	// 頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&m_pVtx, 0);
 
-	//MeshNor();
-
-	int nNumVertical = (1 + m_nVertical);
-	int nNumSide = (1 + m_nSide);
-
-	int nCntVertical = 0;
-	int nCntSide = 0;
-
-	int nNumNor = ((nNumVertical * 2) * nNumSide);
-
-	int nXID1 = 0, nYID1 = 0;
-	int nXID2 = 0, nYID2 = 0;
-	bool bReturn = false;
-
-
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
-	{
-		m_Vector[nCntVertical][nCntSide] = m_pVtx[nCnt].pos;
-
-		if (nCntVertical == nNumVertical)
-		{
-			nCntSide += 1;
-			nCntVertical = 0;
-		}
-		else
-		{
-			nCntVertical += 1;
-		}
-	}
-
-	nCntSide = 0;
-	nCntVertical = 0;
-
-	for (int nCntNor = 0; nCntNor < nNumNor; nCntNor += 1)
-	{
-
-		if ((nCntNor % 2) == 0)
-		{
-			m_Nor[nCntNor] = PolygonNormal(m_Vector[nCntVertical][nCntSide + 1], m_Vector[nCntVertical][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1]);
-		}
-		else if ((nCntNor % 2) == 1)
-		{
-			m_Nor[nCntNor] = PolygonNormal(m_Vector[nCntVertical + 1][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1], m_Vector[nCntVertical][nCntSide]);
-
-			if (nCntVertical == (nNumVertical-1))
-			{
-				nCntSide += 1;
-				nCntVertical = 0;
-			}
-			else
-			{
-				nCntVertical += 1;
-			}
-
-		}
-
-		//printf("\n %d X : %.3f Y : %.3f Z : %.3f\n", nCntNor, m_Nor[nCntNor].x, m_Nor[nCntNor].y, m_Nor[nCntNor].z);
-
-	}
-
-	nCntSide = 0;
-	nCntVertical = 0;
-
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
-	{
-		if (nCntSide == 0)
-		{
-			if (nCntVertical == 0)
-			{
-				m_pVtx[nCnt].nor = m_Nor[0] + m_Nor[1];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 2;
-			}
-			else if (nCntVertical == nNumVertical)
-			{
-				m_pVtx[nCnt].nor = m_Nor[(nCntVertical * 2) - 1];
-			}
-			else
-			{
-				m_pVtx[nCnt].nor = m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) - 1] + m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)] + m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) + 1];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
-			}
-		}
-		else if (nCntSide != 0 && nCntSide != nNumSide)
-		{
-			if (nCntVertical == 0)
-			{
-				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - (nNumVertical * 2))] + m_Nor[((nNumVertical * 2) * nCntSide)] + m_Nor[(((nNumVertical * 2) * nCntSide) + 1)];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
-			}
-			else if (nCntVertical == nNumVertical)
-			{
-				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) + (nNumVertical * 2) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 2)];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
-			}
-			else
-			{
-				m_pVtx[nCnt].nor =  m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - 1)] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) + 1)];
-
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 6;
-			}
-		}
-		else if (nCntSide == nNumSide)
-		{
-			if (nCntVertical == 0)
-			{
-				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - (nNumVertical * 2))];
-			}
-			else if (nCntVertical == nNumVertical)
-			{
-				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 2)];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 2;
-			}
-			else
-			{
-				m_pVtx[nCnt].nor =	m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
-									m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))];
-				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
-			}
-		}
-
-		//printf("\n %d X : %.3f Y : %.3f Z : %.3f\n", nCnt,m_pVtx[nCnt].nor.x, m_pVtx[nCnt].nor.y, m_pVtx[nCnt].nor.z);
-
-		if (nCntVertical == nNumVertical)
-		{
-			nCntSide += 1;
-			nCntVertical = 0;
-		}
-		else
-		{
-			nCntVertical += 1;
-		}
-	}
+	MeshNor();
 
 	//D3DXVECTOR3 nor[8];
 	//
@@ -424,26 +291,6 @@ void CMesh3D::Draw(void)
 
 }
 
-//=============================================================================
-// 頂点に座標を代入
-//=============================================================================
-
-void CMesh3D::MoveMesh(D3DXVECTOR3 move)
-{
-	// 頂点バッファをロック
-	m_pVtxBuff->Lock(0, 0, (void**)&m_pVtx, 0);
-
-	// 各頂点の座標
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
-	{
-		m_pVtx[nCnt].pos.x += move.x;
-		m_pVtx[nCnt].pos.y += move.y;
-		m_pVtx[nCnt].pos.z += move.z;
-	}
-
-	// 頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
-}
 
 void CMesh3D::MeshWave(const D3DXVECTOR3& center, int ntime, float fHeight, int nCycle)
 {
@@ -456,6 +303,23 @@ void CMesh3D::MeshWave(const D3DXVECTOR3& center, int ntime, float fHeight, int 
 		float Dicetan = getDistance(center.x, center.z, m_pVtx[nCnt].pos.x, m_pVtx[nCnt].pos.z);
 
 		m_pVtx[nCnt].pos.y = (fHeight) * sinf((2.0f * D3DX_PI) / nCycle * (ntime - Dicetan));
+	}
+
+	// 頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}
+
+void CMesh3D::MeshWave(const D3DXVECTOR3 & center, int ntime, int nCycle)
+{
+	// 頂点バッファをロック
+	m_pVtxBuff->Lock(0, 0, (void**)&m_pVtx, 0);
+
+	// 各頂点の座標
+	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
+	{
+		float Dicetan = getDistance(center.x, center.z, m_pVtx[nCnt].pos.x, m_pVtx[nCnt].pos.z);
+
+		m_pVtx[nCnt].pos.y += sinf((2.0f * D3DX_PI) / nCycle * (ntime - Dicetan));
 	}
 
 	// 頂点バッファをアンロック
@@ -477,7 +341,6 @@ void CMesh3D::MeshWave(int nID, int ntime, float fHeight)
 
 	// 頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
-
 }
 
 void CMesh3D::VtxPos(int nID, float fHeight)
@@ -491,55 +354,6 @@ void CMesh3D::VtxPos(int nID, float fHeight)
 	// 頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
 
-}
-
-void CMesh3D::MeshMove(D3DXVECTOR3 & move, int ntime, const D3DXVECTOR3 & center)
-{
-	int nCntVertical = 0;
-	int nNumVertical = (1 + m_nVertical);
-	int nNumSide = (1 + m_nSide);
-	int nCntSide = 0;
-
-	// 頂点バッファをロック
-	m_pVtxBuff->Lock(0, 0, (void**)&m_pVtx, 0);
-
-	// 各頂点の座標
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
-	{
-		float Dicetan = getDistance(center.x,0, m_pVtx[nCnt].pos.x,0);
-
-		m_pVtx[nCnt].pos.z += (m_pos.z - ((m_size.z / nNumSide) * nCntSide)) + move.z *  (Dicetan / 100.0f);
-		if (nCntVertical == nNumVertical)
-		{
-			nCntSide += 1;
-			nCntVertical = 0;
-		}
-		else
-		{
-			nCntVertical += 1;
-		}
-
-	}
-	// 各頂点の座標
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
-	{
-		float Dicetan = getDistance(0, center.z, 0, m_pVtx[nCnt].pos.z);
-
-		m_pVtx[nCnt].pos.x = (m_pos.x + ((m_size.x / (nNumVertical)) * nCntVertical)) + move.x;
-
-		if (nCntVertical == nNumVertical)
-		{
-			nCntSide += 1;
-			nCntVertical = 0;
-		}
-		else
-		{
-			nCntVertical += 1;
-		}
-	}
-
-	// 頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
 }
 
 void CMesh3D::MeshCycleMove(void)
@@ -748,11 +562,10 @@ void CMesh3D::MeshNor(void)
 	int nXID2 = 0, nYID2 = 0;
 	bool bReturn = false;
 
-	D3DXVECTOR3 *Nor = new D3DXVECTOR3[nNumNor];
 
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++, m_pVtx++)
+	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
 	{
-		m_Vector[nCntVertical][nCntSide] = m_pVtx[0].pos;
+		m_Vector[nCntVertical][nCntSide] = m_pVtx[nCnt].pos;
 
 		if (nCntVertical == nNumVertical)
 		{
@@ -768,72 +581,100 @@ void CMesh3D::MeshNor(void)
 	nCntSide = 0;
 	nCntVertical = 0;
 
-	for (int nCntNor = 0; nCntNor < nNumNor/2; nCntNor += 2)
+	for (int nCntNor = 0; nCntNor < nNumNor; nCntNor += 1)
 	{
-		Nor[nCntNor + 1] = PolygonNormal(m_Vector[nCntVertical + 1][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1], m_Vector[nCntVertical][nCntSide]);
-		Nor[nCntNor] = PolygonNormal(m_Vector[nCntVertical][nCntSide + 1], m_Vector[nCntVertical][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1]);
 
-		if (nCntVertical == (nNumVertical-1))
+		if ((nCntNor % 2) == 0)
 		{
-			nCntSide += 1;
-			nCntVertical = 0;
+			m_Nor[nCntNor] = PolygonNormal(m_Vector[nCntVertical][nCntSide + 1], m_Vector[nCntVertical][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1]);
 		}
-		else
+		else if ((nCntNor % 2) == 1)
 		{
-			nCntVertical += 1;
+			m_Nor[nCntNor] = PolygonNormal(m_Vector[nCntVertical + 1][nCntSide], m_Vector[nCntVertical + 1][nCntSide + 1], m_Vector[nCntVertical][nCntSide]);
+
+			if (nCntVertical == (nNumVertical - 1))
+			{
+				nCntSide += 1;
+				nCntVertical = 0;
+			}
+			else
+			{
+				nCntVertical += 1;
+			}
+
 		}
+
+		//printf("\n %d X : %.3f Y : %.3f Z : %.3f\n", nCntNor, m_Nor[nCntNor].x, m_Nor[nCntNor].y, m_Nor[nCntNor].z);
+
 	}
 
 	nCntSide = 0;
 	nCntVertical = 0;
 
-	for (int nCnt = 0; nCnt < m_nVtx; nCnt++, m_pVtx++)
+	for (int nCnt = 0; nCnt < m_nVtx; nCnt++)
 	{
-		if (nCnt == 0)
+		if (nCntSide == 0)
 		{
 			if (nCntVertical == 0)
 			{
-				m_pVtx[0].nor = (Nor[nCnt] + Nor[nCnt+1])/2;
+				m_pVtx[nCnt].nor = m_Nor[0] + m_Nor[1];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 2;
 			}
 			else if (nCntVertical == nNumVertical)
 			{
-				m_pVtx[0].nor = Nor[(nCntVertical * 2) - 1];
+				m_pVtx[nCnt].nor = m_Nor[(nCntVertical * 2) - 1];
 			}
 			else
 			{
-				m_pVtx[0].nor = (Nor[(nCntVertical * 2) - 1] + Nor[(nCntVertical * 2)] + Nor[(nCntVertical * 2) + 1]) / 3;
+				m_pVtx[nCnt].nor = m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) - 1] + m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)] + m_Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) + 1];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
 			}
 		}
-		else if (nCnt != 0 || nCnt != m_nVtx - 1)
+		else if (nCntSide != 0 && nCntSide != nNumSide)
 		{
 			if (nCntVertical == 0)
 			{
-				m_pVtx[0].nor = (Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)] + Nor[((nNumVertical * 2) * nCntSide)] + Nor[((nNumVertical * 2) * nCntSide) + 1]);
+				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - (nNumVertical * 2))] + m_Nor[((nNumVertical * 2) * nCntSide)] + m_Nor[(((nNumVertical * 2) * nCntSide) + 1)];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
 			}
 			else if (nCntVertical == nNumVertical)
 			{
-				m_pVtx[0].nor = (Nor[((nNumVertical * 2) * nCntSide) + (nNumVertical * 2) - 1] + Nor[((nNumVertical * 2) * nCntSide) - 1] + Nor[((nNumVertical * 2) * nCntSide) - 2]);
+				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) + (nNumVertical * 2) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 2)];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
 			}
 			else
 			{
-				m_pVtx[0].nor = (Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)] + Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2) + 1] + Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2) + 2] + Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) - 1] + Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)] + Nor[((nNumVertical * 2) * nCntSide) + (nCntVertical * 2) + 1]) / 6;
+				m_pVtx[nCnt].nor = m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - 1)] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) + 1)];
+
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 6;
 			}
 		}
-		else if (nCnt == m_nVtx - 1)
+		else if (nCntSide == nNumSide)
 		{
 			if (nCntVertical == 0)
 			{
-				m_pVtx[0].nor = Nor[((nNumVertical * 2) * nCntSide) - (nNumVertical * 2)];
+				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - (nNumVertical * 2))];
 			}
 			else if (nCntVertical == nNumVertical)
 			{
-				m_pVtx[0].nor = (Nor[(((nNumVertical * 2) * nCntSide) - 1)] + Nor[(((nNumVertical * 2) * nCntSide) - 2)]) / 2;
+				m_pVtx[nCnt].nor = m_Nor[(((nNumVertical * 2) * nCntSide) - 1)] + m_Nor[(((nNumVertical * 2) * nCntSide) - 2)];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 2;
 			}
 			else
 			{
-				m_pVtx[0].nor = (Nor[((nNumVertical * 2) * nCntSide) - ((nCntVertical * 2) * nCntSide)] + Nor[((nNumVertical * 2) * nCntSide) - ((nCntVertical * 2) * nCntSide)+1] + Nor[((nNumVertical * 2) * nCntSide) - ((nCntVertical * 2) * nCntSide)+2]) / 3;
+				m_pVtx[nCnt].nor = m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2)))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 1))] +
+					m_Nor[((((nNumVertical * 2) * nCntSide) + (nCntVertical * 2)) - ((nNumVertical * 2) + 2))];
+				m_pVtx[nCnt].nor = m_pVtx[nCnt].nor / 3;
 			}
 		}
+
+		//printf("\n %d X : %.3f Y : %.3f Z : %.3f\n", nCnt,m_pVtx[nCnt].nor.x, m_pVtx[nCnt].nor.y, m_pVtx[nCnt].nor.z);
 
 		if (nCntVertical == nNumVertical)
 		{

@@ -43,7 +43,6 @@
     <ClCompile Include="move.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
-    <ClCompile Include="pause.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
@@ -82,14 +81,13 @@
     <ClInclude Include="move.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="particle.h" />
-    <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2D.h" />
-    <ClInclude Include="secene3D.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="TextureScene.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="tutorial.h" />

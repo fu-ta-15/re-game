@@ -13,9 +13,11 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "mesh.h"
-#include "sound.h"
+#include "mesh3D.h"
 
-
+//-----------------------------------------------------------------------------
+// クラス
+//-----------------------------------------------------------------------------
 class CTitle : public CScene
 {
 public:
@@ -43,6 +45,7 @@ private:
 
 	static CScene2D*			m_paTitleUI[UI_MAX];	// タイトルUIポリゴン
 	static CMesh*				m_pTitleLogo;			// メッシュポリゴン
+	static CMesh3D	*m_pNote;
 	float						AddCol = 0.0f;			// α値
 	int							m_nCntTime = 0;			// カウントタイマー
 	D3DXVECTOR2					m_tex;					// テクスチャ座標

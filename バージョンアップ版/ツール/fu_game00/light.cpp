@@ -50,13 +50,14 @@ void CLight::Init(void)
 			// ƒ‰ƒCƒg‚ÌŠgŽUŒõ‚ðÝ’è
 			m_Light[nCntLight].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-			//g_light[nCntLight].Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f);
-
 			// ƒ‰ƒCƒg‚Ì•ûŒü‚ðÝ’è
 			vecDir[nCntLight] = D3DXVECTOR3(0.2f, -0.8f, 0.4f);
 
 			// ³‹K‰»‚·‚é
-			D3DXVec3Normalize(&vecDir[nCntLight], &vecDir[nCntLight]);	
+			D3DXVec3Normalize(&vecDir[nCntLight], &vecDir[nCntLight]);
+
+			// î•ñ•Û‘¶
+			m_vecDir[nCntLight] = vecDir[nCntLight];
 
 			// ³‹K‰»‚µ‚½î•ñ‚ð”½‰f
 			m_Light[nCntLight].Direction = vecDir[nCntLight];
@@ -69,13 +70,14 @@ void CLight::Init(void)
 			// ƒ‰ƒCƒg‚ÌŠgŽUŒõ‚ðÝ’è
 			m_Light[nCntLight].Diffuse = D3DXCOLOR(0.65f, 0.65f, 0.65f, 1.0f);
 
-			//g_light[nCntLight].Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f);
-
 			// ƒ‰ƒCƒg‚Ì•ûŒü‚ðÝ’è
 			vecDir[nCntLight] = D3DXVECTOR3(-0.2f, 0.8f, -0.4f);
 
 			// ³‹K‰»‚·‚é
 			D3DXVec3Normalize(&vecDir[nCntLight], &vecDir[nCntLight]);	
+
+			// î•ñ•Û‘¶
+			m_vecDir[nCntLight] = vecDir[nCntLight];
 
 			// ³‹K‰»‚µ‚½î•ñ‚ð”½‰f
 			m_Light[nCntLight].Direction = vecDir[nCntLight];
@@ -94,6 +96,9 @@ void CLight::Init(void)
 			// ³‹K‰»‚·‚é
 			D3DXVec3Normalize(&vecDir[nCntLight], &vecDir[nCntLight]);
 
+			// î•ñ•Û‘¶
+			m_vecDir[nCntLight] = vecDir[nCntLight];
+
 			// ³‹K‰»‚µ‚½î•ñ‚ð”½‰f
 			m_Light[nCntLight].Direction = vecDir[nCntLight];
 				break;
@@ -107,7 +112,6 @@ void CLight::Init(void)
 
 		// ƒ‰ƒCƒg‚ð—LŒø‚É‚·‚é
 		pDevice->LightEnable(nCntLight, TRUE);
-
 	}
 }
 

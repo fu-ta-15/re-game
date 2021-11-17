@@ -20,7 +20,6 @@ class CScene2D : public CScene
 {
 public:
 	CScene2D(Priority type);
-	CScene2D(PauseType type);
 	~CScene2D();
 
 	static CScene2D *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size);
@@ -59,7 +58,6 @@ private:
 	D3DXVECTOR3					m_move;					// 移動量
 	D3DXVECTOR2					m_tex;					// テクスチャ座標
 	D3DXCOLOR					m_col;					// カラー
-	PauseType					m_PauseType;			// ポーズの種類
 	bool						m_bUse;					// 使用の有無
 	float						m_fAngle;				// 対角線の角度
 	float						m_fAnimeY;				// アニメーション座標Y

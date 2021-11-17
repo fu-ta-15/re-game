@@ -11,7 +11,6 @@
 // インクルードファイル
 //-----------------------------------------------------------------------------
 #include "scene.h"
-#include "mesh3D.h"
 
 //-----------------------------------------------------------------------------
 //前方宣言
@@ -36,21 +35,8 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	static CMesh3D *GetMesh() { return m_pNote; }
-
 private:
 
-	int					m_RandomHeight;
-	float				m_fWaveHeight;
-	float				m_nWaveCnt;
-
-	float fTime = 0.0f;
-
-	int nTime = 0;
-	float fHeight = 0.0f;
-	D3DXVECTOR3 m_WaveCenter = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	static CMesh3D	*m_pNote;
 
 };
 
