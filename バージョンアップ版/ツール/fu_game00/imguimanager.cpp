@@ -118,7 +118,7 @@ void ImGuiMana::DrawEnd(HRESULT result, LPDIRECT3DDEVICE9 pD3DDevice, D3DPRESENT
 //=============================================================================
 // ImGuiのメッシュポリゴンの情報
 //
-// ・生成設定/波の表現の設定…
+// ・生成設定/波の表現の設定/その他設定…
 //=============================================================================
 void MeshList::MeshInfo(void)
 {
@@ -168,6 +168,20 @@ void MeshList::MeshInfo(void)
 			ImGui::TreePop();
 		}
 
+		// 空白の行を生成
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+		// その他の詳細
+		if (ImGui::TreeNode(u8"---メッシュポリゴン詳細---"))
+		{
+			
+
+			// ノード生成終了
+			ImGui::TreePop();
+		}
+
 		// ノード生成終了
 		ImGui::TreePop();
 	}
@@ -192,6 +206,7 @@ void MeshList::MeshWave(void)
 		m_nTime++;
 	}
 
+	// 生成されていたら波の表現開始
 	if (m_pMesh != NULL)
 	{
 		m_pMesh->MeshWave(m_WaveCenter, m_nTime, m_fHeight, m_nCycle);
@@ -226,6 +241,7 @@ void MeshList::MeshWave(void)
 			// ノードの終了
 			ImGui::TreePop();
 		}
+
 		// ノードの終了
 		ImGui::TreePop();
 	}
@@ -339,7 +355,6 @@ void TextureMake::TextureLoad(void)
 		// ノードの終了
 		ImGui::TreePop();
 	}
-
 }
 
 void TextureMake::TextureBind(void)

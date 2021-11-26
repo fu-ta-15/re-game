@@ -17,9 +17,11 @@
 //-----------------------------------------------------------------------------
 // マクロ
 //-----------------------------------------------------------------------------
-#define CAMERA_POS_Y		(500.0f)										 // カメラのY座標
-#define CAMERA_POS_Z		(500.0f)										 // カメラのZ座標
-#define INIT_CAMERA_POSV	(D3DXVECTOR3(0.0f, CAMERA_POS_Y, CAMERA_POS_Z))	 // カメラの視点位置
+#define CAMERA_POS_Y		(100.0f)										 // カメラのY座標
+#define CAMERA_POS_Z		(-100.0f)										 // カメラのZ座標
+#define CAMERA_POS_X		(0.0f)										 // カメラのZ座標
+#define INIT_CAMERA_POSV	(D3DXVECTOR3(CAMERA_POS_X, CAMERA_POS_Y, CAMERA_POS_Z))	 // カメラの視点位置
+#define INIT_CAMERA_POSR	(D3DXVECTOR3(WIDTH_HALF, 0.0f, CAMERA_POS_Z))	 // カメラの視点位置
 
 //=============================================================================
 // コンストラクタ
@@ -27,14 +29,8 @@
 CCamera::CCamera()
 {
 	m_posV = INIT_CAMERA_POSV;					// 視点(現在)
-	m_posR = ZeroVector3;						// 注視点(現在)
-	m_posVDest = ZeroVector3;					// 視点(目的)
-	m_posRDest = ZeroVector3;					// 注視点(目的)
-	m_moveX = ZeroVector3;						// 移動量
-	m_moveZ = ZeroVector3;						// 移動量
-	m_moveVY = ZeroVector3;						// 移動量
-	m_moveRY = ZeroVector3;						// 移動量
-	m_rot = ZeroVector3;						// カメラの向き
+	m_posR = INIT_CAMERA_POSR;						// 注視点(現在)
+	m_rot = D3DXVECTOR3(0.0f, (3.14f / 2), 0.0f);						// カメラの向き
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		// 上方向ベクトル
 }
 
@@ -64,15 +60,6 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
-	//// 視点の更新
-	//m_posV.x += (m_posVDest.x - m_posV.x) * 0.04f;
-	//m_posV.z += (m_posVDest.z - m_posV.z) * 0.04f;
-	//m_posV.y += (m_posVDest.y - m_posV.y) * 0.04f;
-
-	//// 注視点の更新
-	//m_posR.x += (m_posRDest.x - m_posR.x) * 0.08f;
-	//m_posR.z += (m_posRDest.z - m_posR.z) * 0.08f;
-	//m_posR.y += (m_posRDest.y - m_posR.y) * 0.08f;
 }
 
 //=============================================================================
