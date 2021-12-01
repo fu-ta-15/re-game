@@ -78,12 +78,6 @@
     <ClCompile Include="keyinput.cpp">
       <Filter>main\Input\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Xinput.cpp">
-      <Filter>main\Input\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Dinput.cpp">
-      <Filter>main\Input\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>main\mode\ソースフ ァイル</Filter>
     </ClCompile>
@@ -138,9 +132,6 @@
     <ClCompile Include="time.cpp">
       <Filter>game\Number</Filter>
     </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>game\effect</Filter>
-    </ClCompile>
     <ClCompile Include="collision.cpp">
       <Filter>game\effect</Filter>
     </ClCompile>
@@ -177,12 +168,6 @@
       <Filter>main\mode\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="keyinput.h">
-      <Filter>main\Input\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Xinput.h">
-      <Filter>main\Input\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Dinput.h">
       <Filter>main\Input\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
@@ -241,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="time.h">
       <Filter>game\Number</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>game\effect</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
       <Filter>game\effect</Filter>

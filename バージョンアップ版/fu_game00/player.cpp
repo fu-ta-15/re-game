@@ -10,7 +10,6 @@
 #include "player.h"
 #include "keyinput.h"
 #include "manager.h"
-#include "bullet.h"
 #include "collision.h"
 #include "mesh.h"
 #include "game.h"
@@ -222,7 +221,7 @@ void CPlayer::PlayerAction(void)
 		if ((m_nBulletCharge % 20) == 0)
 		{
 			CBulletMesh::Create(m_pos, D3DXVECTOR3(0.0f, 15.0f, 0.0f), D3DXVECTOR3(10.0f, 0.0f, 0.0f), true, OBJ_BULLET2);	// バレットの生成
-			m_nBulletCharge = 0;																						//PlayerBullet(3);											// プレイヤーの弾消費
+			m_nBulletCharge = 0;																												// プレイヤーの弾消費
 		}
 	}
 	else if (pKey->GetState(CKey::STATE_RELEASE, DIK_NUMPAD6) == true)
