@@ -43,7 +43,7 @@ CPlayer::CPlayer() : CScene2D(OBJ_PLAYER)
 	this->m_pShield = NULL;					// シールド
 	this->m_nBulletTime = 0;				// 弾の復活時間のカウント
 	this->m_bAlive = true;					// 生存中
-	this->m_bFall = false;
+	this->m_bFall = false;					// 落下したか
 }
 
 //=============================================================================
@@ -77,11 +77,13 @@ CPlayer * CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 //=============================================================================
 HRESULT CPlayer::Init(void)
 {
+	// メンバ変数の設定
 	m_tex = D3DXVECTOR2(2, 0);
 	m_number = D3DXVECTOR2(1, 0);
 	m_nAnimeCnt = 1;
 	m_nBulletCharge = 0;
-	// プレイヤー表示設定
+
+	// ポリゴンの生成・テクスチャの設定
 	CScene2D::Init(m_pos, m_size);
 	CScene2D::CreateTexture("data/TEXTURE/player0.png");
 	CScene2D::SetTex(m_tex, m_number);
@@ -367,20 +369,23 @@ void CPlayer::PlayerAnime(void)
 //=============================================================================
 void CPlayer::PlayerState(void)
 {
+	// 通常状態の場合
 	if (m_state == STATE_NONE)
-	{// 通常状態の場合
+	{
 		m_col = WhiteColor;	// 色を戻す
 		m_bDamage = false;	// ダメージ判定OFF
 	}
 
+	// シールドがある場合
 	if (m_pShield->GetUse() == true && m_bCollEnemy == true)
-	{// シールドがある場合
+	{
 		m_pShield->SetUse(false);	// シールド削除
 		m_bCollEnemy = false;		// 当たり判定をもとに戻す
 	}
 
+	// シールドがなかったら＆＆敵に当たったら
 	if (m_pShield->GetUse() == false && m_bCollEnemy == true)
-	{// シールドがなかったら
+	{
 		m_state = STATE_KNOCKUP;					// ノックアップ状態
 		m_bDamage = true;							// ダメージ判定ON
 		m_KnockUpPos.x = 0.0f;						// ノックアップの位置
@@ -389,8 +394,9 @@ void CPlayer::PlayerState(void)
 		m_bCollEnemy = false;						// 当たり判定をもとに戻す
 	}
 
+	// ノックアップ状態の時
 	if (m_state == STATE_KNOCKUP)
-	{// ノックアップ状態の時
+	{
 		DamagePlayer();	// ノックアップ状態の処理
 	}
 }
@@ -400,17 +406,19 @@ void CPlayer::PlayerState(void)
 //=============================================================================
 void CPlayer::DamagePlayer(void)
 {
-	m_nDamageCnt++;	// カウントアップ
+	// カウントアップ
+	m_nDamageCnt++;	
 	
 	// 目的の場所へノックアップ
 	m_pos.x = Move::TargetPosMove(D3DXVECTOR3(m_KnockUpPos.x, 0.0f, 0.0f), m_pos, 0.035f).x;
 	m_pos.y = Move::TargetPosMove(D3DXVECTOR3(0.0f, m_KnockUpPos.y, 0.0f), m_pos, 0.015f).y;
 
+	// カウントが一定まで来たら
 	if ((m_nDamageCnt % 15) == 0)
-	{// カウントが一定まで来たら
-		m_fLife -= (m_fLife * 0.056f + 1.2f);
-		m_state = STATE_NONE;	 // 状態を戻す
-		m_nDamageCnt = 0;	 // カウントを初期化する
+	{
+		m_fLife -= (m_fLife * 0.056f + 1.2f);	// ライフの減少
+		m_state = STATE_NONE;					// 状態を戻す
+		m_nDamageCnt = 0;						// カウントを初期化する
 	}
 }
 
@@ -421,18 +429,22 @@ void CPlayer::PlayerLife(void)
 {
 	for (int nCntLife = 0; nCntLife < PLAYER_LIFE_STOCK; nCntLife++)
 	{
+		// ライフが一定の値を超えたら
 		if (m_fLife < nCntLife * 10)
-		{// ライフが一定の値を超えたら
+		{
+			// ライフを削除
 			if (m_pLife[nCntLife] != NULL)
-			{// ライフを削除
+			{
 				m_pLife[nCntLife]->Release();
 				m_pLife[nCntLife] = NULL;
 				break;
 			}
 		}
 	}
+
+	// ライフがゼロになったら
 	if (m_fLife < 0)
-	{// ライフがゼロになったら
+	{
 		m_bAlive = false;
 		m_bUse = false;
 	}
@@ -447,8 +459,9 @@ void CPlayer::PlayerBullet(int nBullet)
 	{
 		for (int nCntWeapon = 0; nCntWeapon < PLAYER_BULLET_STOCK; nCntWeapon++)
 		{
+			// 使用した分のポリゴンが残っていたら
 			if (m_pWeapon[nCntWeapon]->GetUse() != false)
-			{// 使用した分のポリゴンが残っていたら
+			{
 				m_nBullet -= 1;							// ストックの減らす
 				m_pWeapon[nCntWeapon]->SetUse(false);	// そのポリゴンを使用していない状態にする
 				break;

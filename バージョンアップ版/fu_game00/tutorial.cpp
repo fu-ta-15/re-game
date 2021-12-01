@@ -85,7 +85,7 @@ HRESULT CTutorial::Init(void)
 	m_pBg = CScene2D::Create(CENTER_POS, BG_SIZE);													// 背景
 	m_pField = CMesh::Create(FIELD_VERTICAL, FIELD_SIDE, FIELD_POS, FIELD_SIZE,CScene::OBJ_NONE);	// 地面
 	m_pPlayer = CPlayer::Create(PLAYER_POS, PLAYER_SIZE);											// プレイヤー
-	m_pBoss = CBoss::Create(BOSS_POS, BOSS_SIZE, BOSS_LIFE);
+	m_pBoss = CBoss::Create(BOSS_POS, BOSS_SIZE, BOSS_LIFE);										// ボス
 
 	for (int nCnt = 0; nCnt < OPERA_MAX; nCnt++)
 	{// 操作説明画像

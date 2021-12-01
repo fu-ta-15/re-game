@@ -116,7 +116,7 @@ HRESULT CMesh::Init(const int nVertical, const int nSide, const D3DXVECTOR3 pos,
 	MeshSetPos(m_nVertical, m_nSide, m_pVtx);
 
 	// 除算数 1.0fで固定
-	MeshSetRhw(m_pVtx);
+	MeshSetNor(m_pVtx);
 
 	// 色の設定
 	MeshSetCol(m_pVtx);
@@ -400,7 +400,7 @@ void CMesh::MeshSetPos(int nVertical, int nSide, VERTEX_2D * pVtx)
 //=============================================================================
 // メッシュポリゴンの
 //=============================================================================
-void CMesh::MeshSetRhw(VERTEX_2D * pVtx)
+void CMesh::MeshSetNor(VERTEX_2D * pVtx)
 {
 	// 各頂点に除算数を１．０で固定
 	for (int nCnt = 0; nCnt < m_nVtx; nCnt++, pVtx++)

@@ -59,7 +59,7 @@ private:
 	HRESULT MeshCreate(int nVertical, int nSide, WORD *pIdx);
 	void MeshSetTex(int nVertical, int nSide, VERTEX_2D *pVtx);
 	void MeshSetPos(int nVertical, int nSide, VERTEX_2D *pVtx);
-	void MeshSetRhw(VERTEX_2D *pVtx);
+	void MeshSetNor(VERTEX_2D *pVtx);
 	void MeshSetCol(VERTEX_2D *pVtx);
 	int VertexCreate(int nVertical, int nSide);
 	int IndexCreate(int nVertical, int nSide);

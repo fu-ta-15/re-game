@@ -26,7 +26,7 @@
 #define LIFE_POS_Y		(200.0f - (10 * nCntLife))						// ライフのY座標
 #define LIFE_POS		(D3DXVECTOR3(LIFE_POS_X, LIFE_POS_Y, 0.0f))		// ライフの位置
 #define LIFE_SIZE		(D3DXVECTOR3(10.0f, 5.0f, 0.0f))				// ライフのサイズ
-#define LIFE_DOWN		((m_fLife * 0.17f + 0.025f))					// ライフの減少計算
+#define LIFE_DOWN		((m_fLife * 0.17f + 1.025f))					// ライフの減少計算
 #define LIFE_CNT		(nCntLife * 10)									// ライフカウント
 #define DAMAGE_TEXTUER	("data/TEXTURE/stateBoss.png")					// ダメージ状態テクスチャリンク
 #define SHILED_TEXTUER	("data/TEXTURE/AuroraRing.png")					// バリアテクスチャリンク
