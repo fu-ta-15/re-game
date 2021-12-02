@@ -17,11 +17,11 @@
 //-----------------------------------------------------------------------------
 // マクロ
 //-----------------------------------------------------------------------------
-#define CAMERA_POS_Y		(100.0f)													// カメラのY座標
+#define CAMERA_POS_Y		(200.0f)													// カメラのY座標
 #define CAMERA_POS_Z		(-100.0f)													// カメラのZ座標
-#define CAMERA_POS_X		(0.0f)														// カメラのZ座標
+#define CAMERA_POS_X		(100.0f)														// カメラのX座標
 #define INIT_CAMERA_POSV	(D3DXVECTOR3(CAMERA_POS_X, CAMERA_POS_Y, CAMERA_POS_Z))		// カメラの視点位置
-#define INIT_CAMERA_POSR	(D3DXVECTOR3(WIDTH_HALF, 0.0f, CAMERA_POS_Z))				// カメラの視点位置
+#define INIT_CAMERA_POSR	(D3DXVECTOR3(100.0f, 0.0f, -90.0f))							// カメラの注視点位置
 
 //=============================================================================
 // コンストラクタ

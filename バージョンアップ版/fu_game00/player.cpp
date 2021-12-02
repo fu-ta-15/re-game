@@ -119,6 +119,13 @@ void CPlayer::Uninit(void)
 {
 	// ポリゴンの終了処理
 	CScene2D::Uninit();
+
+	// シールドの開放
+	if (m_pShield != NULL)
+	{
+		m_pShield->Uninit();
+		m_pShield = NULL;
+	}
 }
 
 //=============================================================================
@@ -129,9 +136,11 @@ void CPlayer::Update(void)
 	// キーボード情報取得
 	CKey *pKey = CManager::GetKey();
 
+	// 何もない状態の時
 	if (m_state == STATE_NONE)
-	{// 何もない状態の時
-		PlayerAction();	// アクション
+	{
+		// アクション
+		PlayerAction();	
 	}
 
 	// ライフの管理
@@ -178,13 +187,18 @@ void CPlayer::PosControl(void)
 	// 地面の当たり判定
 	FieldControl();
 
+	// 左画面端上限
 	if (m_pos.x - m_size.x < 0)
-	{// 左画面端上限
-		m_pos.x = 0 + m_size.x;				// 元の位置の戻す
+	{
+		// 元の位置の戻す
+		m_pos.x = 0 + m_size.x;				
 	}
+
+	// 右画面端上限
 	if (m_pos.x + m_size.x > SCREEN_WIDTH)
-	{// 右画面端上限
-		m_pos.x = SCREEN_WIDTH - m_size.x;	// 元の位置の戻す
+	{
+		// 元の位置の戻す
+		m_pos.x = SCREEN_WIDTH - m_size.x;	
 	}
 }
 
@@ -199,14 +213,19 @@ void CPlayer::PlayerAction(void)
 	// 弾復活用のタイム
 	m_nBulletTime++;
 
-	// 弾の復活
+	// 毎35フレーム
 	if ((m_nBulletTime % 35) == 0)
-	{// 毎35フレーム
+	{
+		// ポリゴンを一つずつ確認
 		for (int nCntWeapon = PLAYER_BULLET_STOCK; nCntWeapon > 0; nCntWeapon--)
 		{
+			// そのポリゴンが使われていなかったら（可視化してなかったら
 			if (m_pWeapon[nCntWeapon - 1]->GetUse() != true)
-			{// バレットのストック回復
+			{
+				// バレットストックの加算
 				m_nBullet += 1;
+
+				// ポリゴンを可視化する
 				m_pWeapon[nCntWeapon - 1]->SetUse(true);
 				break;
 			}
@@ -225,9 +244,9 @@ void CPlayer::PlayerAction(void)
 			CBulletMesh::Create(m_pos, D3DXVECTOR3(0.0f, 15.0f, 0.0f), D3DXVECTOR3(10.0f, 0.0f, 0.0f), true, OBJ_BULLET2);	// バレットの生成
 			m_nBulletCharge = 0;																												// プレイヤーの弾消費
 		}
-	}
+	}	// トリガー・NUM6 が押されたとき
 	else if (pKey->GetState(CKey::STATE_RELEASE, DIK_NUMPAD6) == true)
-	{// トリガー・NUM6 が押されたとき
+	{
 		CBulletMesh::Create(m_pos, D3DXVECTOR3(0.0f, 15.0f, 0.0f), D3DXVECTOR3(10.0f, 0.0f, 0.0f), false, OBJ_BULLET1);	// バレットの生成
 		m_nBulletCharge = 0;
 		m_bPresse = false;
@@ -243,34 +262,48 @@ void CPlayer::PlayerMove(void)
 	// キーボード情報取得
 	CKey *pKey = CManager::GetKey();
 
-	/* プレイヤーの移動 */
+	// プレス・Dが押されたとき
 	if (pKey->GetState(CKey::STATE_PRESSE, DIK_D) == true)	
-	{// プレス・Dが押されたとき
+	{
+		// アニメーションカウントアップ
 		m_nAnimeCnt++;
-		m_move.x += PLAYER_MOVE;	// 移動量の更新
-	}
-	if (pKey->GetState(CKey::STATE_PRESSE, DIK_A) == true)	
-	{// プレス・Aが押されたとき
-		m_nAnimeCnt++;
-		m_move.x -= PLAYER_MOVE;	// 移動量の更新
+
+		// 移動量の更新
+		m_move.x += PLAYER_MOVE;	
 	}
 
-	/* プレイヤーのジャンプ */
+	// プレス・Aが押されたとき
+	if (pKey->GetState(CKey::STATE_PRESSE, DIK_A) == true)	
+	{
+		// アニメーションカウントアップ
+		m_nAnimeCnt++;
+
+		// 移動量の更新
+		m_move.x -= PLAYER_MOVE;	
+	}
+
+	// トリガー・SPACEが押されたとき
 	if (pKey->GetState(CKey::STATE_PRESSE, DIK_W) == true)	
-	{// トリガー・SPACEが押されたとき
+	{
+		// ジャンプ可能ならば
 		if (m_bJunp == false)
-		{// ジャンプ可能ならば
-			m_move.y -= PLAYER_JUNP;// 移動量の更新
-			m_bJunp = true;			// ジャンプ中
+		{
+			// 移動量の更新
+			m_move.y -= PLAYER_JUNP;
+
+			// ジャンプ中
+			m_bJunp = true;			
 		}
 	}
 
-	/* プレイヤーの落下減速 */
+	// ジャンプ中の時
 	if (m_bJunp == true)
-	{// ジャンプ中かつ、重力がプラスの時
+	{
+		// プレス・SPACEが押されたとき
 		if (pKey->GetState(CKey::STATE_PRESSE, DIK_W) == true)	
-		{// プレス・SPACEが押されたとき
-			m_move.y -= 0.6f;	// 重力の減速
+		{
+			// 重力の減速
+			m_move.y -= 0.6f;	
 		}
 	}
 }
@@ -295,10 +328,6 @@ void CPlayer::FieldControl(void)
 	// メッシュポリゴンの情報取得
 	switch (CManager::GetMode())
 	{
-		// チュートリアル
-	case CManager::MODE_TUTORIAL:
-		pMesh = CTutorial::GetMesh();
-		break;
 		// ゲーム
 	case CManager::MODE_GAME:
 		pMesh = CGame::GetMesh();
@@ -310,37 +339,57 @@ void CPlayer::FieldControl(void)
 	// 頂点情報の取得
 	VERTEX_2D *pVtx = pMesh->GetVERTEX();
 
-
 	// 底辺の中心座標設定
 	D3DXVECTOR3 posA = D3DXVECTOR3(m_pos.x, m_pos.y + m_size.y, m_pos.z);
 
 	// 外積当たり判定
 	bool bOutPro = false;
 
+	// メッシュポリゴン上辺の位置のみ算出
 	for (int nCnt = 0; nCnt < pMesh->GetVtxNum() / 2; nCnt++)
-	{// メッシュポリゴン上辺のみ算出
+	{
+		// 二つの頂点と点の外積判定
 		if (m_pos.x > pVtx[nCnt].pos.x && m_pos.x < pVtx[nCnt + 1].pos.x && m_bFall == false)
-		{// 二つの頂点と点の外積判定
+		{
 			bOutPro = Collision::OutProduct(pVtx[nCnt].pos, pVtx[nCnt + 1].pos, posA);
 		}
+
+		// 点が二点より下にいたら
 		if (bOutPro)
-		{// 点が二点より下にいたら
-			m_posOld = Collision::WaveCollision(pVtx[nCnt].pos, pVtx[nCnt + 1].pos, posA);	// 戻す分を算出
-			m_move.y = 0.0f;					// 重力ゼロ
-			m_pos.y = m_posOld.y - m_size.y;	// 画面内まで移動させる
+		{
+			// 戻す分を算出
+			m_posOld = Collision::WaveCollision(pVtx[nCnt].pos, pVtx[nCnt + 1].pos, posA);	
+
+			// 重力ゼロ
+			m_move.y = 0.0f;					
+
+			// 画面内まで移動させる
+			m_pos.y = m_posOld.y - m_size.y;	
 			if (m_bJunp == true)
 			{
-				m_bJunp = false;					// ジャンプ可能
+				// ジャンプ可能
+				m_bJunp = false;	
+
+				// パーティクル生成
 				Particle::SetParticle(D3DXVECTOR3(m_pos.x, m_pos.y - m_size.y, 0.0f), m_size*0.4f, 50, Particle::TYPE_DOWN_FAN, "data/TEXTURE/Fog2001.png");
 			}
 			break;
 		}
 	}
+
+	// 落下判定
 	if (m_pos.y + m_size.y > pVtx[0].pos.y)
 	{
-		m_bFall = true;
+		// 地面より下にいたら
+		if (m_pos.y - m_size.y > pVtx[0].pos.y)
+		{
+			m_bFall = true;
+		}
+
+		// 地面より左に行こうとしたら
 		if (m_pos.x - m_size.x < WIDTH_HALF + 100)
 		{
+			// めり込まないようにする
 			m_pos.x = WIDTH_HALF + 100 + m_size.x;
 		}
 	}
@@ -351,14 +400,22 @@ void CPlayer::FieldControl(void)
 //=============================================================================
 void CPlayer::PlayerAnime(void)
 {
+	// カウントが１０あまり１の時
 	if ((m_nAnimeCnt % 5) == 0)
-	{// カウントが１０あまり１の時
-		m_number.x += 1;	// テクスチャ座標加算
+	{
+		// テクスチャ座標加算
+		m_number.x += 1;	
+
+		// カウント初期化
 		m_nAnimeCnt = 0;
+
+		// テクスチャ座標が過ぎていたら
 		if (((int)m_number.x % 2) == 0)
-		{// テクスチャ座標が過ぎていたら
-			m_number.x = 0.0f;	// 初期値に戻す
+		{
+			// 初期値に戻す
+			m_number.x = 0.0f;	
 		}
+
 		// テクスチャ座標の反映
 		CScene2D::SetTex(m_tex, m_number);
 	}
@@ -372,32 +429,50 @@ void CPlayer::PlayerState(void)
 	// 通常状態の場合
 	if (m_state == STATE_NONE)
 	{
-		m_col = WhiteColor;	// 色を戻す
-		m_bDamage = false;	// ダメージ判定OFF
+		// 色を戻す
+		m_col = WhiteColor;	
+
+		// ダメージ判定OFF
+		m_bDamage = false;	
 	}
 
 	// シールドがある場合
 	if (m_pShield->GetUse() == true && m_bCollEnemy == true)
 	{
-		m_pShield->SetUse(false);	// シールド削除
-		m_bCollEnemy = false;		// 当たり判定をもとに戻す
+		// シールド削除
+		m_pShield->SetUse(false);	
+
+		// 当たり判定をもとに戻す
+		m_bCollEnemy = false;		
 	}
 
 	// シールドがなかったら＆＆敵に当たったら
 	if (m_pShield->GetUse() == false && m_bCollEnemy == true)
 	{
-		m_state = STATE_KNOCKUP;					// ノックアップ状態
-		m_bDamage = true;							// ダメージ判定ON
-		m_KnockUpPos.x = 0.0f;						// ノックアップの位置
-		m_KnockUpPos.y = m_pos.y + 40.0f;			// ノックアップの位置
-		m_col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);	// ダメージの色に変更
-		m_bCollEnemy = false;						// 当たり判定をもとに戻す
+		// ノックアップ状態
+		m_state = STATE_KNOCKUP;					
+
+		// ダメージ判定ON
+		m_bDamage = true;							
+
+		// ノックアップの位置
+		m_KnockUpPos.x = 0.0f;						
+
+		// ノックアップの位置
+		m_KnockUpPos.y = m_pos.y + 40.0f;			
+
+		// ダメージの色に変更
+		m_col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);	
+
+		// 当たり判定をもとに戻す
+		m_bCollEnemy = false;						
 	}
 
 	// ノックアップ状態の時
 	if (m_state == STATE_KNOCKUP)
 	{
-		DamagePlayer();	// ノックアップ状態の処理
+		// ノックアップ状態の処理
+		DamagePlayer();	
 	}
 }
 

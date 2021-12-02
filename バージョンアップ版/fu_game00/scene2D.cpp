@@ -23,6 +23,7 @@ CScene2D::CScene2D(Priority type) : CScene(type)
 	m_size = ZeroVector3;
 	m_move = ZeroVector3;
 	m_col = WhiteColor;
+	m_pTex = NULL;
 	m_bUse = true;
 	m_fAngle = 0.0f;
 }
@@ -259,11 +260,6 @@ void CScene2D::Uninit(void)
 	{//頂点バッファの開放
 		m_pVtxBuff->Release();
 		m_pVtxBuff = NULL;
-	}
-	if (m_pTex != NULL)
-	{
-		m_pTex->Release();
-		m_pTex = NULL;
 	}
 	Release();
 }

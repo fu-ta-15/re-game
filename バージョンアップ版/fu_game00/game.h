@@ -22,6 +22,7 @@ class CTime;
 class CBoss;
 class CScene2D;
 class CMesh;
+class CMesh3D;
 
 //-----------------------------------------------------------------------------
 // ƒNƒ‰ƒX
@@ -49,17 +50,14 @@ public:
 
 private:
 
-	int					m_RandomHeight;
-	float				m_fWaveHeight;
-	float				m_nWaveCnt;
-	CMesh				*m_pLifeMesh;
+	int				m_nWaveCnt;
 
 	static CPlayer		*m_pPlayer;
 	static CScore		*m_pScore;
 	static CTime		*m_pTime;
 	static CBoss		*m_pBoss;
-	static CScene2D		*m_pBg;
 	static CMesh		*m_pField;
+	static CMesh3D		*m_pBg3D;
 };
 
 #endif // !1

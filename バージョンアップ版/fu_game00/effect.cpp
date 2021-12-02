@@ -166,11 +166,6 @@ void CEffect::CollisionField(void)
 	// メッシュポリゴンの情報取得
 	switch (CManager::GetMode())
 	{
-		// チュートリアル
-	case CManager::MODE_TUTORIAL:
-		pMesh = CTutorial::GetMesh();
-		break;
-
 		// ゲーム
 	case CManager::MODE_GAME:
 		pMesh = CGame::GetMesh();

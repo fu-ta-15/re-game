@@ -21,6 +21,7 @@
 
 #include "scene2D.h"
 #include "mesh.h"
+#include "mesh3D.h"
 
 #include "time.h"
 #include "move.h"
@@ -52,8 +53,8 @@ CPlayer*	CGame::m_pPlayer	= NULL;
 CScore*		CGame::m_pScore		= NULL;
 CTime*		CGame::m_pTime		= NULL;
 CBoss*		CGame::m_pBoss		= NULL;
-CScene2D*	CGame::m_pBg		= NULL;
 CMesh*		CGame::m_pField		= NULL;
+CMesh3D*	CGame::m_pBg3D		= NULL;
 
 //=============================================================================
 // コンストラクタ
@@ -96,19 +97,19 @@ HRESULT CGame::Init(void)
 	CSound *pSound = CManager::GetSound();
 
 	// 波を起こすためのカウント
-	m_nWaveCnt = 0.0f;
+	m_nWaveCnt = 0;
 
-	// 波の高さ
-	m_fWaveHeight = 20.0f;
+	// 3D背景の生成
+	m_pBg3D = CMesh3D::Create(40, 40, D3DXVECTOR3(-40.0f, 0.0f, 0.0f), D3DXVECTOR3(400.0f, 0.0f, 200.0f));
 
-	// 背景の生成
-	m_pBg = CScene2D::Create(BG_POS, BG_SIZE);
-
-	// ダメージ表現用のメッシュポリゴン生成
-	m_pLifeMesh = CMesh::Create(100, 0, D3DXVECTOR3(0.0f,HEIGHT_HALF,0.0f), D3DXVECTOR3(SCREEN_WIDTH, 5.0f, 0.0f), CScene::OBJ_NONE2);
+	// 3D背景のテクスチャ設定
+	m_pBg3D->CreateTexture("data/TEXTURE/BG.jpg");
 	
 	// 地面の生成
 	m_pField = CMesh::Create(FIELD_VERTICAL, 0, FIELD_POS, FIELD_SIZE,CScene::OBJ_NONE2);
+
+	// 地面のテクスチャ
+	m_pField->CreateTexture(FIELD_TEXTURE);
 	
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create(PLAYER_POS, PLAYER_SIZE);
@@ -121,12 +122,6 @@ HRESULT CGame::Init(void)
 
 	// ボスのテクスチャ
 	m_pBoss->CreateTexture(BOSS_TEXTURE);
-
-	// 背景のテクスチャ
-	m_pBg->CreateTexture(BG_TEXTURE);
-
-	// 地面のテクスチャ
-	m_pField->CreateTexture(FIELD_TEXTURE);
 
 	// サウンドの開始
 	pSound->PlaySound(CSound::SOUND_LABEL_BGM002);
@@ -177,37 +172,14 @@ void CGame::Update(void)
 		CManager::GetFade()->SetFade(CManager::MODE_RESULT);
 	}
 
+	// 波の表現
+	m_pBg3D->MeshWave(D3DXVECTOR3(180.0f,0.0f,100.0f), (int)m_nWaveCnt, 10, 30);
+
 	// ウェーブのカウント
-	m_nWaveCnt += 0.52f;
+	m_nWaveCnt++;
 
-	for (int nVtx = 0; nVtx < m_pLifeMesh->GetVtxNum() / 2; nVtx++)
-	{
-		// 座標保管用
-		D3DXVECTOR3 pos = ZeroVector3;
-
-		// ボスがダメージを受けたら
-		if (m_pBoss->GetState() == CBoss::STATE_NOT_DAMAGE)
-		{
-			m_fWaveHeight = (float)(rand() % 300 - 200);
-			m_nWaveCnt += rand() % 15 + 2;
-			pos.y = Move::CosWave(HEIGHT_HALF, m_fWaveHeight, 320.0f, (m_nWaveCnt) + nVtx);
-		}
-		else
-		{
-			m_fWaveHeight += (20.0f - m_fWaveHeight) * 0.0025f;
-			pos.y = Move::CosWave(HEIGHT_HALF, m_fWaveHeight, 240.0f, (m_nWaveCnt) + nVtx);
-		}
-
-		m_pLifeMesh->SetVtxPosY(nVtx, pos.y);
-		pos.y += 5;
-		m_pLifeMesh->SetVtxPosY(nVtx + (m_pLifeMesh->GetVtxNum() / 2), pos.y);
-	}
-
-	/* タイマー処理 */
-	if ((m_pTime->AddCnt(1) % 60) == 0)
-	{
-		m_pTime->AddTime(1);
-	}
+	// 時間のカウントアップ
+	if ((m_pTime->AddCnt(1) % 60) == 0) { m_pTime->AddTime(1); }
 }
 
 //=============================================================================
